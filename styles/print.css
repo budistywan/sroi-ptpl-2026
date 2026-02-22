@@ -1,0 +1,56 @@
+/* =========================================
+   PAGED MEDIA (Paged.js)
+========================================= */
+
+@page{
+  size: A4 portrait;
+  margin: var(--page-margin-top) var(--page-margin-right) var(--page-margin-bottom) var(--page-margin-left);
+
+  @bottom-right{
+    content: "Hal. " counter(page);
+    font-size: 9pt;
+    color: var(--muted);
+  }
+  @bottom-left{
+    content: string(docTitle);
+    font-size: 9pt;
+    color: var(--muted);
+  }
+  @top-left{
+    content: string(runningChapter);
+    font-size: 8.5pt;
+    letter-spacing: .10em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  @top-right{
+    content: string(runningTitle);
+    font-size: 8.5pt;
+    color: var(--muted);
+  }
+}
+
+/* Cover: no headers/footers */
+@page cover{
+  @top-left{ content: none; }
+  @top-right{ content: none; }
+  @bottom-left{ content: none; }
+  @bottom-right{ content: none; }
+}
+
+/* Running strings */
+[data-doc-title]{ string-set: docTitle attr(data-doc-title); }
+[data-running-chapter]{ string-set: runningChapter attr(data-running-chapter); }
+[data-running-title]{ string-set: runningTitle attr(data-running-title); }
+
+/* Widows/orphans */
+p{ widows: 2; orphans: 2; }
+
+/* Screen preview (Paged.js shows pages on screen) */
+@media screen{
+  body{ background: var(--canvas); }
+  .pagedjs_page{
+    box-shadow: 0 6mm 18mm rgba(0,0,0,.10);
+    margin: 0 auto 10mm auto;
+  }
+}

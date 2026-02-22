@@ -1,0 +1,79 @@
+/* =========================================
+   PAGE ARCHETYPES (flowing)
+========================================= */
+
+/* Cover as its own named page */
+.section{ /* flow container */ }
+.section.cover{ page: cover; }
+.section.cover .cover-wrap{
+  min-height: calc(297mm - var(--page-margin-top) - var(--page-margin-bottom));
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10mm;
+}
+.section.cover .cover-top{
+  display:flex;
+  justify-content: space-between;
+  align-items:flex-start;
+  gap: 14mm;
+}
+.section.cover .logo{ height: 14mm; width:auto; object-fit: contain; }
+.section.cover .cover-context{
+  font-size: 11pt;
+  font-weight: 520;
+  color: var(--muted);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin: 0 0 4mm 0;
+}
+.section.cover .cover-main{
+  font-size: 36pt;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin: 0 0 5mm 0;
+}
+.section.cover .cover-hero{
+  height: 125mm;
+  border-radius: var(--radius-lg);
+  overflow:hidden;
+  border: 1px solid var(--line-soft);
+  background: transparent;
+}
+.section.cover .cover-hero img{ width:100%; height:100%; object-fit: cover; display:block; }
+.section.cover .cover-footer{
+  margin-top: 6mm;
+  padding-top: 6mm;
+  border-top: 1px solid var(--line-soft);
+  font-size: 10pt;
+  color: var(--ink-2);
+  letter-spacing: .03em;
+  line-height: 1.6;
+}
+.section.cover .cover-programs{ font-weight: 650; }
+
+/* Chapter opener (one page, strong hierarchy) */
+.section.chapter-opener{ break-before: page; page-break-before: always; }
+.chapter-hero{
+  margin-top: 8mm;
+  padding: 12mm;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line-soft);
+  background: linear-gradient(135deg, rgba(15,47,74,.06), rgba(229,57,53,.06));
+}
+.chapter-hero .big{
+  font-size: 34pt;
+  font-weight: 950;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  line-height: 1.03;
+}
+.chapter-hero .sub{
+  margin-top: 4mm;
+  max-width: 150mm;
+}
+
+/* Text-heavy section */
+.section.text{ break-before: page; page-break-before: always; }

@@ -1,0 +1,26 @@
+:root{
+  --canvas: #F5F7F9;
+  --paper: #FFFFFF;
+
+  --ink: #0F2F4A;        /* primary navy */
+  --ink-2: #2C3E50;      /* secondary */
+  --muted: #6C7A86;
+
+  --accent-red: #E53935;
+  --accent-red-deep: #B71C1C;
+
+  --line: rgba(15,47,74,.18);
+  --line-soft: rgba(15,47,74,.08);
+
+  --tint-red: rgba(229,57,53,.06);
+  --tint-navy: rgba(15,47,74,.05);
+
+  --radius: 6mm;
+  --radius-lg: 8mm;
+
+  /* Page box (Paged.js / print) */
+  --page-margin-top: 18mm;
+  --page-margin-right: 18mm;
+  --page-margin-bottom: 20mm;
+  --page-margin-left: 18mm;
+}

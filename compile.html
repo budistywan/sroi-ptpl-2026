@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SROI Report — Paged.js Compile</title>
+
+  <link rel="stylesheet" href="styles/master.css">
+
+  <!-- Paged.js polyfill (offline): paste official paged.polyfill.js into scripts/paged.polyfill.js -->
+  <script src="scripts/paged.polyfill.js"></script>
+  <script src="scripts/paged-init.js"></script>
+
+  <style>
+    /* Flow container (will be paginated by Paged.js) */
+    #flow {
+      max-width: 210mm;
+      margin: 0 auto;
+      padding: 10mm 0 18mm 0;
+    }
+    /* After Paged.js pages appear, hide raw flow to avoid duplicates */
+    .pagedjs_pages + #flow { display:none; }
+  </style>
+</head>
+
+<body>
+  <main id="flow" aria-label="SROI flow document (Paged.js will paginate)"></main>
+
+  <script>
+    const partials = ['bab-00-pengantar/00-01-cover.html', 'bab-00-pengantar/00-05-daftar-isi.html', 'bab-01-pendahuluan/01-00-opening.html', 'bab-01-pendahuluan/01-01-latar-belakang.html'];
+    const flow = document.getElementById("flow");
+
+    async function loadPartials(){
+      for (const file of partials){
+        const res = await fetch(file, { cache: "no-store" });
+        if (!res.ok) {
+          console.warn("Missing file:", file, res.status);
+          continue;
+        }
+        const html = await res.text();
+        const temp = document.createElement("div");
+        temp.innerHTML = html.trim();
+        Array.from(temp.children).forEach(node => flow.appendChild(node));
+      }
+    }
+
+    loadPartials();
+  </script>
+</body>
+</html>
