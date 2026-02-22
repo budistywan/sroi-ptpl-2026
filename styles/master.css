@@ -1,58 +1,43 @@
-/* SROI PTPL 2026 — master.css (The "Flow" Fix) */
-
+/* SROI PTPL 2026 — master.css (Stable Layout) */
 :root {
   --canvas: #F5F7F9; --paper: #FFFFFF;
-  --ink: #0F2F4A; --red: #E53935;
-  --pad: 22mm;
+  --ink: #0F2F4A; --red: #E53935; --muted: #6C7A86;
+  --pad: 22mm; --line: rgba(15,47,74,.15);
 }
 
-/* Reset Standar */
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; background: var(--canvas); }
 
-/* Perbaikan Krusial: Lepaskan semua height kaku */
+/* Fondasi Halaman */
 .page {
   display: block !important;
   width: 100%;
   padding: var(--pad);
   background: var(--paper);
-  /* Jangan berikan height atau min-height di sini */
-  height: auto !important; 
+  height: auto !important; /* Jangan biarkan pagedjs mengira ini kosong */
   overflow: visible !important;
 }
 
-/* Fix untuk Grid: Paged.js sering bingung dengan CSS Grid murni */
+/* Fix untuk Grid: Paged.js butuh flow alami */
 .grid {
-  display: block; /* Kita ubah jadi block agar konten turun ke bawah */
+  display: flex !important;
+  flex-wrap: wrap;
   width: 100%;
-  clear: both;
+  gap: 8mm;
+  margin-top: 5mm;
 }
 
-/* Jika ingin tetap terlihat 2 kolom di layar lebar */
-@media screen and (min-width: 1024px) {
-  .grid {
-    display: flex;
-    gap: 8mm;
-    align-items: flex-start;
-  }
-  .span-8 { flex: 8; }
-  .span-4 { flex: 4; }
-}
+.span-8 { flex: 2; min-width: 0; }
+.span-4 { flex: 1; min-width: 0; }
 
-/* Pastikan teks prose (narasi) memiliki flow yang benar */
-.prose {
-  display: block;
-  height: auto !important;
-}
+/* Typo & Content */
+.h1 { font-size: 32pt; font-weight: 850; margin: 0 0 5mm 0; line-height: 1.1; color: var(--ink); }
+.kicker { font-size: 8.5pt; font-weight: 750; color: var(--red); text-transform: uppercase; margin-bottom: 2mm; }
+.prose p { font-size: 11pt; line-height: 1.6; margin-bottom: 4mm; text-align: justify; color: var(--ink); }
+.muted { color: var(--muted); }
+.rule { height: 1px; background: var(--line); margin: 6mm 0; width: 100%; }
 
-.prose p {
-  font-size: 11pt;
-  line-height: 1.6;
-  margin-bottom: 4mm;
-  display: block; /* Pastikan p tidak inline */
-}
-
-/* Paged.js UI */
+/* Paged.js Interface */
 .pagedjs_pages {
   display: flex;
   flex-direction: column;
@@ -63,5 +48,9 @@ html, body { margin: 0; padding: 0; background: var(--canvas); }
 .pagedjs_page {
   background: var(--paper);
   margin: 10mm 0;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
 }
+
+/* Aturan Potong */
+@page { size: A4; margin: 0; }
+.break-before { break-before: page; }
