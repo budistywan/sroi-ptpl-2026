@@ -1,19 +1,20 @@
-# SROI Report — Paged.js (Offline, tanpa setup lokal)
+# SROI PTPL 2026 — Paged.js (Browser → PDF)
 
-## Cara pakai (GitHub Pages / lokal)
-1) Upload seluruh folder ini ke repo GitHub.
-2) Aktifkan GitHub Pages (Settings → Pages).
-3) Buka: `compile.html`.
+## Cara pakai cepat (GitHub Pages)
+1. Upload semua file ke repo `sroi-ptpl-2026`.
+2. Settings → Pages → Deploy from branch → pilih branch & root.
+3. Buka `https://<user>.github.io/<repo>/compile.html`
 
-## PENTING — Paged.js Offline
-File `scripts/paged.polyfill.js` di repo ini **placeholder**.
-Silakan download `paged.polyfill.js` versi resmi dari Paged.js lalu overwrite file tersebut.
+## Paged.js
+- Repo ini memuat `vendor/paged.polyfill.js` sebagai **placeholder**.
+- `compile.html` akan mencoba load local dulu, jika tidak ada PagedPolyfill, akan fallback ke CDN.
 
-Setelah itu:
-- buka `compile.html`
-- tunggu proses paginate
-- Print → Save as PDF
+Jika ingin benar-benar offline:
+- overwrite `vendor/paged.polyfill.js` dengan isi `paged.polyfill.js` resmi.
 
-## Asset yang wajib kamu ganti
+## Asset yang wajib diganti
 - `assets/brand/logo-ptpl.png`
 - `assets/img/cover/cover-hero.png`
+
+## Output PDF
+- Buka `compile.html` → tunggu pagination selesai → Print → Save as PDF.

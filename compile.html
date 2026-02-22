@@ -1,182 +1,120 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <title>Kajian Social Return on Investment – PTPL 2026</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kajian SROI — PTPL 2026 (Compile)</title>
 
-  <!-- Master Styles -->
   <link rel="stylesheet" href="styles/master.css" />
-
-  <!-- Font (optional modern clean) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
+  <div id="boot" style="position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(245,247,249,.92); z-index:9999; font-family:system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;">
+    <div style="width:min(560px,92vw); padding:18px 18px; border:1px solid rgba(15,47,74,.12); border-radius:14px; background:#fff; color:#0F2F4A;">
+      <div style="font-weight:900; margin:0 0 6px 0;">Menyusun dokumen…</div>
+      <div style="opacity:.75; margin:0;">Memuat halaman & menerapkan pagination (Paged.js).</div>
+      <div id="bootLog" style="margin-top:10px; font-size:12px; opacity:.75; line-height:1.4; max-height:170px; overflow:auto;"></div>
+    </div>
+  </div>
 
-  <!-- ========================= -->
-  <!-- KELENGKAPAN DEPAN -->
-  <!-- ========================= -->
+  <main id="doc" aria-label="SROI flow document"></main>
 
-  <section class="chapter cover">
-    <!-- include cover content here OR copy paste cover html -->
-  </section>
+  <script>
+    const FILES = [
+      "bab-00-pengantar/00-cover.html",
+      "bab-00-pengantar/01-pengesahan.html",
+      "bab-00-pengantar/02-kata-pengantar.html",
+      "bab-00-pengantar/03-ringkasan-eksekutif.html",
+      "bab-00-pengantar/04-daftar-isi.html",
+      "bab-00-pengantar/05-daftar-tabel.html",
+      "bab-00-pengantar/06-daftar-gambar.html",
 
-  <section class="chapter">
-    <!-- halaman pengesahan -->
-  </section>
+      "bab-01-pendahuluan/index.html",
+      "bab-02-profil-perusahaan/index.html",
+      "bab-03-metodologi/index.html",
+      "bab-04-kondisi-awal/index.html",
+      "bab-05-kondisi-ideal/index.html",
+      "bab-06-strategi/index.html",
+      "bab-07-implementasi/index.html",
+      "bab-08-triple-loop-learning/index.html",
+      "bab-09-penutup/index.html",
+      "bab-10-komponensi-penyusun/index.html"
+    ];
 
-  <section class="chapter">
-    <!-- kata pengantar -->
-  </section>
+    const $doc = document.getElementById("doc");
+    const $boot = document.getElementById("boot");
+    const $bootLog = document.getElementById("bootLog");
 
-  <section class="chapter">
-    <!-- ringkasan eksekutif -->
-  </section>
+    function log(msg){
+      const div = document.createElement("div");
+      div.textContent = msg;
+      $bootLog.appendChild(div);
+      $bootLog.scrollTop = $bootLog.scrollHeight;
+      console.log(msg);
+    }
 
-  <section class="chapter">
-    <!-- daftar isi -->
-  </section>
+    async function loadHTML(path){
+      log("Load: " + path);
+      const res = await fetch(path, { cache: "no-store" });
+      if(!res.ok) throw new Error(`${path} (${res.status})`);
+      return await res.text();
+    }
 
-  <section class="chapter">
-    <!-- daftar tabel -->
-  </section>
+    function loadPagedJS(){
+      return new Promise((resolve, reject) => {
+        const local = document.createElement("script");
+        local.src = "vendor/paged.polyfill.js";
+        local.onload = () => {
+          // If still placeholder, it won't create PagedPolyfill; then fallback to CDN
+          if (window.PagedPolyfill && typeof window.PagedPolyfill.preview === "function") return resolve("local");
+          // fallback CDN
+          const cdn = document.createElement("script");
+          cdn.src = "https://unpkg.com/pagedjs/dist/paged.polyfill.js";
+          cdn.onload = () => resolve("cdn");
+          cdn.onerror = () => reject(new Error("Gagal load Paged.js (local & CDN)."));
+          document.head.appendChild(cdn);
+        };
+        local.onerror = () => {
+          const cdn = document.createElement("script");
+          cdn.src = "https://unpkg.com/pagedjs/dist/paged.polyfill.js";
+          cdn.onload = () => resolve("cdn");
+          cdn.onerror = () => reject(new Error("Gagal load Paged.js (local & CDN)."));
+          document.head.appendChild(cdn);
+        };
+        document.head.appendChild(local);
+      });
+    }
 
-  <section class="chapter">
-    <!-- daftar gambar -->
-  </section>
+    async function build(){
+      // 1) load Paged.js
+      const src = await loadPagedJS();
+      log("Paged.js: " + src);
 
-  <!-- ========================= -->
-  <!-- BAB I -->
-  <!-- ========================= -->
+      // 2) load content
+      let merged = "";
+      for (const f of FILES){
+        const html = await loadHTML(f);
+        merged += `\n<!-- ===== ${f} ===== -->\n` + html + "\n";
+      }
+      $doc.innerHTML = merged;
 
-  <section class="chapter">
-    <h1 class="chapter-title">
-      BAB I<br>
-      PENDAHULUAN
-    </h1>
+      // 3) paginate
+      if (window.PagedPolyfill && typeof window.PagedPolyfill.preview === "function") {
+        log("PagedPolyfill.preview()");
+        await window.PagedPolyfill.preview();
+      } else {
+        log("Paged.js auto-run (preview() not called).");
+      }
 
-    <!-- 1.1 -->
-    <article class="subchapter">
-      <h2>1.1 Latar Belakang Penulisan SROI</h2>
-    </article>
+      $boot.style.display = "none";
+    }
 
-    <article class="subchapter">
-      <h2>1.2 Tujuan dan Luaran</h2>
-    </article>
-
-    <article class="subchapter">
-      <h2>1.3 Ruang Lingkup Studi</h2>
-    </article>
-
-    <article class="subchapter">
-      <h2>1.4 Konsiderasi Hukum</h2>
-    </article>
-  </section>
-
-  <!-- ========================= -->
-  <!-- BAB II -->
-  <!-- ========================= -->
-
-  <section class="chapter">
-    <h1 class="chapter-title">
-      BAB II<br>
-      PROFIL PERUSAHAAN
-    </h1>
-  </section>
-
-  <!-- ========================= -->
-  <!-- BAB III -->
-  <!-- ========================= -->
-
-  <section class="chapter">
-    <h1 class="chapter-title">
-      BAB III<br>
-      METODOLOGI SROI DAN TRIPLE LOOP LEARNING
-    </h1>
-  </section>
-
-  <!-- ========================= -->
-  <!-- BAB IV -->
-  <!-- ========================= -->
-
-  <section class="chapter">
-    <h1 class="chapter-title">
-      BAB IV<br>
-      IDENTIFIKASI KONDISI AWAL
-    </h1>
-  </section>
-
-  <!-- ========================= -->
-  <!-- BAB V -->
-  <!-- ========================= -->
-
-  <section class="chapter">
-    <h1 class="chapter-title">
-      BAB V<br>
-      IDENTIFIKASI KONDISI IDEAL
-    </h1>
-  </section>
-
-  <!-- ========================= -->
-  <!-- BAB VI -->
-  <!-- ========================= -->
-
-  <section class="chapter">
-    <h1 class="chapter-title">
-      BAB VI<br>
-      STRATEGI
-    </h1>
-  </section>
-
-  <!-- ========================= -->
-  <!-- BAB VII -->
-  <!-- ========================= -->
-
-  <section class="chapter">
-    <h1 class="chapter-title">
-      BAB VII<br>
-      IMPLEMENTASI
-    </h1>
-  </section>
-
-  <!-- ========================= -->
-  <!-- BAB VIII -->
-  <!-- ========================= -->
-
-  <section class="chapter">
-    <h1 class="chapter-title">
-      BAB VIII<br>
-      TRIPLE LOOP LEARNING
-    </h1>
-  </section>
-
-  <!-- ========================= -->
-  <!-- BAB IX -->
-  <!-- ========================= -->
-
-  <section class="chapter">
-    <h1 class="chapter-title">
-      BAB IX<br>
-      PENUTUP
-    </h1>
-  </section>
-
-  <!-- ========================= -->
-  <!-- BAB X -->
-  <!-- ========================= -->
-
-  <section class="chapter">
-    <h1 class="chapter-title">
-      BAB X<br>
-      KOMPONENSI PENYUSUN
-    </h1>
-  </section>
-
-
-  <!-- Paged.js (render A4 automatically) -->
-  <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
-
+    build().catch(err => {
+      console.error(err);
+      log("ERROR: " + err.message);
+      log("Cek: path file benar? GitHub Pages aktif? master.css 200?");
+      // loader stays visible
+    });
+  </script>
 </body>
 </html>

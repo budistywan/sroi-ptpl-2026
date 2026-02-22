@@ -1,0 +1,3 @@
+Ganti file kosong ini dengan aset asli:
+- assets/brand/logo-ptpl.png
+- assets/img/cover/cover-hero.png
