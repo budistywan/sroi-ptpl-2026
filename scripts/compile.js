@@ -1,10 +1,11 @@
 /**
- * SROI PTPL 2026 - Stable Compiler Script
- * Memastikan semua partial HTML dimuat sempurna sebelum diproses oleh Paged.js
+ * SROI PTPL 2026 - Stable Compiler
+ * Dirancang untuk memuat 90+ file secara aman tanpa blank screen.
  */
 
 (async function() {
-  // Fungsi untuk menampilkan status di layar
+  const DELAY_RENDER = 2000; // Jeda 2 detik agar browser tenang
+  
   const status = (msg, type = "ok") => {
     let el = document.getElementById("compile-status");
     if (!el) {
@@ -16,67 +17,62 @@
     el.innerHTML = msg;
   };
 
-  // Fungsi fetch dengan cache-breaker untuk menghindari file lama di GitHub
   async function fetchText(url) {
-    const r = await fetch(`${url}?t=${new Date().getTime()}`, { cache: "no-store" });
-    if (!r.ok) throw new Error(`Gagal muat ${r.status}: ${url}`);
+    // Cache buster agar update di GitHub langsung terlihat
+    const r = await fetch(`${url}?t=${Date.now()}`, { cache: "no-store" });
+    if (!r.ok) throw new Error(`404: ${url}`);
     return await r.text();
   }
 
   const mount = document.getElementById("doc");
-  if (!mount) {
-    status("Error: Elemen #doc tidak ditemukan di compile.html", "warn");
-    return;
-  }
 
   try {
-    // 1. Ambil Manifest
-    status("Membaca manifest...");
-    const manifestRaw = await fetchText("scripts/manifest.json");
-    const manifest = JSON.parse(manifestRaw);
-
-    // 2. Kumpulkan semua konten dalam variabel String (Buffer)
-    // Ini mencegah Paged.js memproses dokumen yang belum lengkap
-    let allContent = "";
-    let okCount = 0;
+    status("Memulai sinkronisasi manifest...");
+    const manifestRes = await fetch("scripts/manifest.json?t=" + Date.now());
+    const manifest = await manifestRes.json();
     
-    status(`Memuat ${manifest.parts.length} bagian laporan...`);
+    let htmlBuffer = "";
+    let okCount = 0;
 
+    status(`Mendownload ${manifest.parts.length} bagian laporan...`);
+
+    // Proses download serial (antre) agar tidak membebani network
     for (const path of manifest.parts) {
       try {
         const content = await fetchText(path);
-        // Membungkus setiap bagian dengan class report-part untuk menjaga struktur CSS
-        allContent += `<div class="report-part" data-source="${path}">${content}</div>`;
+        // Bungkus per file untuk isolasi error
+        htmlBuffer += `<div class="report-part-wrapper" data-path="${path}">${content}</div>`;
         okCount++;
+        
+        if (okCount % 10 === 0) status(`Proses: ${okCount}/${manifest.parts.length} file...`);
       } catch (e) {
-        console.error(`Gagal muat: ${path}`, e);
-        status(`Gagal muat: ${path}`, "warn");
+        console.error("Gagal muat part:", path);
       }
     }
 
-    // 3. Masukkan semua konten SEKALIGUS ke DOM
-    mount.innerHTML = allContent;
-    status(`Berhasil muat ${okCount}/${manifest.parts.length} bagian. Menyiapkan layout buku...`);
+    // Suntikkan semua HTML sekaligus ke DOM
+    mount.innerHTML = htmlBuffer;
+    status(`Berhasil muat ${okCount} file. Menunggu stabilitas browser...`);
 
-    // 4. Jalankan Paged.js secara aman
-    const runPagedJs = () => {
+    // Fungsi menjalankan Paged.js
+    const startPagination = () => {
       if (window.PagedPolyfill && typeof window.PagedPolyfill.preview === "function") {
+        status("Menjalankan Paged.js Engine (Proses potong halaman)...");
         window.PagedPolyfill.preview()
           .then(() => {
-            status(`Laporan SROI siap! ${okCount} bagian terload. Gunakan Ctrl+P untuk PDF.`);
+            status(`Laporan SROI Selesai! ${okCount} bagian terpasang. Siap cetak (Ctrl+P).`);
           })
           .catch(err => {
+            status("Paged.js gagal memproses. Menampilkan mode standar.", "warn");
             console.error("Paged.js Error:", err);
-            status("Paged.js gagal memproses halaman. Cek struktur HTML.", "warn");
           });
       } else {
-        // Jika polyfill belum siap, tunggu sebentar lalu coba lagi
-        setTimeout(runPagedJs, 500);
+        status("Paged.js tidak aktif. Dokumen dalam mode flow (scroll).", "warn");
       }
     };
 
-    // Berikan jeda agar browser selesai merender HTML mentah sebelum diproses Paged.js
-    setTimeout(runPagedJs, 1000);
+    // Berikan jeda waktu agar browser selesai merender 93 file sebelum dipotong-potong
+    setTimeout(startPagination, DELAY_RENDER);
 
   } catch (err) {
     status(`Error Fatal: ${err.message}`, "warn");
