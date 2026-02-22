@@ -1,4 +1,4 @@
-/* SROI PTPL 2026 — master.css (Resilient Edition) */
+/* SROI PTPL 2026 — master.css (Final Stable) */
 
 :root {
   --canvas: #F5F7F9; --paper: #FFFFFF;
@@ -6,58 +6,58 @@
   --pad: 22mm;
 }
 
-/* Reset Dasar */
+/* Base Fix */
+* { box-sizing: border-box; }
+
 html, body {
   margin: 0; padding: 0;
   background: var(--canvas);
-  color: var(--ink);
-  font-family: sans-serif; /* Ganti dengan font Anda jika sudah ada */
 }
 
-/* Kontainer #doc harus terlihat agar teks tidak 'hanya putih'
-   saat Paged.js gagal atau belum berjalan.
-*/
-#doc {
-  display: block !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
-/* Elemen .page harus fleksibel. 
-   Paged.js akan mengubah ini menjadi layout A4 yang nyata.
-*/
+/* Pastikan section .page tidak dipaksa tingginya oleh CSS kita,
+   biarkan Paged.js yang menanganinya di container .pagedjs_page_content */
 .page {
-  width: 210mm;
-  min-height: 297mm; /* Min-height lebih aman daripada Height */
-  margin: 10mm auto;
-  background: var(--paper);
-  padding: var(--pad);
-  position: relative;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  
-  /* Kunci utama: jangan potong konten secara paksa (overflow hidden) */
-  overflow: visible !important; 
-  display: block;
-  box-sizing: border-box;
-}
-
-/* Memastikan elemen grid/tabel tidak terpotong di tengah secara buruk */
-.grid, table, img, .card {
-  break-inside: avoid;
-  page-break-inside: avoid;
-}
-
-/* Setup Paged.js */
-@page {
-  size: A4;
-  margin: 0;
-}
-
-.pagedjs_pages {
   display: block !important;
+  width: 100%;
+  margin: 0;
+  padding: var(--pad);
+  background: var(--paper);
+  /* Hilangkan min-height atau height statis agar tidak konflik */
+  min-height: auto !important;
+  overflow: visible !important;
+}
+
+/* FIX: Agar konten tidak mengkerut (hanya 1 baris) */
+.grid {
+  display: block; /* Gunakan block dulu untuk stabilitas, atau flex */
+  width: 100%;
+  clear: both;
+}
+
+/* Jika tetap ingin Grid, pastikan ada flow */
+@media screen {
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 8mm;
+  }
+}
+
+/* Typo Dasar agar tidak berantakan di laptop */
+.h1 { font-size: 28pt; font-weight: 800; margin-bottom: 5mm; color: var(--ink); }
+.kicker { color: var(--red); font-weight: 700; text-transform: uppercase; font-size: 9pt; margin-bottom: 2mm; }
+.prose p { font-size: 11pt; line-height: 1.6; margin-bottom: 4mm; text-align: justify; }
+
+/* Paged.js UI */
+.pagedjs_pages {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background: var(--canvas) !important;
 }
 
-/* Tambahkan styling tipografi Anda di bawah sini (.h1, .kicker, dsb) */
-.h1 { font-size: 32pt; font-weight: bold; line-height: 1.1; margin-bottom: 5mm; }
-.kicker { color: var(--red); font-weight: bold; text-transform: uppercase; font-size: 9pt; }
+.pagedjs_page {
+  background: var(--paper);
+  margin: 10mm 0; /* Jarak antar halaman di layar */
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
