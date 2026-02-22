@@ -1,72 +1,33 @@
-/* SROI PTPL 2026 — master.css (Stable for High-Volume Pagination) */
-:root {
-  --canvas: #F5F7F9; --paper: #FFFFFF;
-  --ink: #0F2F4A; --ink2: #2C3E50; --muted: #6C7A86;
-  --red: #E53935; --red2: #B71C1C;
-  --line: rgba(15,47,74,.18); --line2: rgba(15,47,74,.08);
-  --pad: 22mm; --r: 6mm; --r2: 8mm;
-}
+/* SROI PTPL 2026 — master.css (Anti-Blank Version) */
 
-/* Base Setup */
-html, body {
-  margin: 0; padding: 0;
-  background: var(--canvas);
-  color: var(--ink);
-  font-family: Inter, system-ui, sans-serif;
-  -webkit-print-color-adjust: exact;
-}
-
-/* Container Utama */
-#doc {
-  display: block !important;
-  width: 100%;
-}
-
-/* Styling Halaman (Sebelum & Sesudah Paged.js) */
+/* 1. JANGAN biarkan .page membatasi tinggi saat Paged.js sedang bekerja */
 .page {
   width: 210mm;
-  min-height: 297mm; /* Gunakan min-height agar tidak memotong isi */
-  margin: 10mm auto;
-  background: var(--paper);
+  /* Hapus min-height atau height statis yang kaku */
+  min-height: auto !important; 
+  margin: 0 auto;
+  background: white;
   padding: var(--pad);
   position: relative;
-  box-sizing: border-box;
-  display: block;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  
-  /* Jangan gunakan overflow:hidden saat pengembangan */
+  /* PENTING: Jangan hidden, biarkan pagedjs yang mengatur overflow */
   overflow: visible !important; 
-  
-  /* Menghindari elemen terpotong aneh di tengah halaman */
-  break-after: page;
-  page-break-after: always;
+  display: block;
 }
 
-/* Paged.js Engine Styling */
+/* 2. Beri tahu Paged.js ukuran kertas yang sebenarnya */
+@page {
+  size: A4;
+  margin: 0; 
+}
+
+/* 3. Pastikan kontainer hasil Paged.js dipaksa muncul */
 .pagedjs_pages {
-  background: var(--canvas) !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
-/* Memastikan Grid dan Card tidak pecah saat dipotong */
+/* 4. Hindari elemen yang "terlalu kaku" untuk dipotong */
 .grid, .card, table, img {
   break-inside: avoid;
-  page-break-inside: avoid;
-}
-
-/* Typo & Utilities (Sesuai Desain Anda) */
-.h1 { font-size: 32pt; font-weight: 950; margin: 0 0 6mm 0; line-height: 1.04; }
-.kicker { font-size: 8.5pt; font-weight: 750; letter-spacing: 0.05em; color: var(--red); text-transform: uppercase; }
-.rule { height: 1px; background: var(--line); margin: 6mm 0; width: 100%; }
-.rule-red { height: 3px; background: var(--red); width: 12mm; margin: 4mm 0; }
-.prose p { line-height: 1.65; margin-bottom: 4mm; font-size: 11pt; text-align: justify; }
-
-/* Grid System */
-.grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 8mm; }
-.span-8 { grid-column: span 8; }
-.span-4 { grid-column: span 4; }
-.span-6 { grid-column: span 6; }
-
-@media print {
-  body { background: none; }
-  .page { margin: 0; box-shadow: none; width: 100%; }
 }
