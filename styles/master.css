@@ -1,66 +1,41 @@
-/* SROI PTPL 2026 — master.css (PDF-first, Paged.js friendly) */
-:root{
-  --canvas:#F5F7F9; --paper:#FFFFFF;
-  --ink:#0F2F4A; --ink2:#2C3E50; --muted:#6C7A86;
-  --red:#E53935; --red2:#B71C1C;
-  --line:rgba(15,47,74,.18); --line2:rgba(15,47,74,.08);
-  --tintR:rgba(229,57,53,.06); --tintN:rgba(15,47,74,.05);
-  --pad:22mm; --r:6mm; --r2:8mm;
+/* Diagnostic CSS - Memastikan konten muncul */
+:root {
+  --ink: #0f2f4a;
+  --paper: #ffffff;
 }
-html,body{margin:0;padding:0;background:var(--canvas);color:var(--ink);
-  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  -webkit-print-color-adjust:exact; print-color-adjust:exact;}
-@page{size:A4 portrait;margin:0;}
-.pagedjs_page{background:var(--paper);}
-.page{width:210mm;min-height:297mm;margin:0 auto 10mm auto;background:var(--paper);
-  box-sizing:border-box;padding:var(--pad);position:relative;overflow:hidden;}
-.break-before{break-before:page;page-break-before:always;}
-.kicker{font-size:8.5pt;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 3mm 0;}
-.h1{font-size:30pt;font-weight:900;letter-spacing:-0.02em;line-height:1.05;margin:0 0 6mm 0;}
-.h2{font-size:18pt;font-weight:850;margin:0 0 4mm 0;}
-.h3{font-size:14pt;font-weight:800;margin:0 0 3mm 0;}
-.deck{font-size:12pt;line-height:1.6;color:var(--ink2);max-width:165mm;margin:0;}
-.prose{font-size:11.5pt;line-height:1.75;color:var(--ink2);}
-.prose p{margin:0 0 5mm 0;text-align:justify;hyphens:auto;}
-.muted{color:var(--muted);}
-.rule{height:1px;background:var(--line2);margin:6mm 0;}
-.rule-red{height:2px;width:50mm;background:var(--red);margin-top:4mm;}
-.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:6mm;}
-.span-12{grid-column:1/span 12;} .span-8{grid-column:1/span 8;} .span-4{grid-column:9/span 4;}
-.span-6{grid-column:1/span 6;} .span-6b{grid-column:7/span 6;}
-.card{padding:8mm;border-radius:var(--r);border:1px solid var(--line2);background:var(--paper);}
-.card-accent{background:var(--tintR);border-color:rgba(229,57,53,.22);}
-.rail{border-left:3px solid var(--red);padding-left:6mm;font-size:10pt;color:var(--ink2);}
-.badge{display:inline-flex;align-items:center;gap:2mm;padding:1.7mm 3.2mm;border-radius:999px;
-  border:1px solid var(--line2);background:rgba(15,47,74,.03);font-size:8.3pt;color:var(--muted);
-  letter-spacing:.10em;text-transform:uppercase;}
-.badge .dot{width:2.6mm;height:2.6mm;border-radius:999px;background:var(--red);opacity:.9;}
-.stats{display:grid;gap:6mm;} .stats-4{grid-template-columns:repeat(4,1fr);} .stats-3{grid-template-columns:repeat(3,1fr);}
-.stat{padding:6mm;border-radius:var(--r);border:1px solid var(--line2);background:var(--paper);}
-.stat .num{font-size:22pt;font-weight:900;letter-spacing:-0.01em;}
-.stat .label{margin-top:2mm;font-size:8.5pt;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
-.stat-hero{padding:14mm;border-radius:var(--r2);background:var(--tintR);border:1px solid rgba(229,57,53,.25);}
-.stat-hero .num{font-size:40pt;color:var(--red2);line-height:1.0;}
-.table{width:100%;border-collapse:collapse;font-size:9.5pt;line-height:1.45;}
-.table th,.table td{border:1px solid var(--line2);padding:3mm;vertical-align:top;}
-.table th{background:var(--tintN);font-weight:850;}
-.table tbody tr:nth-child(odd){background:rgba(15,47,74,.02);}
-.contents{font-size:11pt;}
-.contents-row{display:flex;justify-content:space-between;align-items:baseline;gap:10mm;padding:3.2mm 0;border-bottom:1px dotted var(--line2);}
-.contents-row .title{color:var(--ink2);font-weight:650;} .contents-row .page-no{color:var(--muted);white-space:nowrap;}
-.cover-wrap{height:100%;display:flex;flex-direction:column;justify-content:space-between;gap:10mm;}
-.cover-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14mm;}
-.logo{height:14mm;width:auto;object-fit:contain;}
-.cover-title{font-size:34pt;font-weight:950;letter-spacing:-0.02em;line-height:1.04;margin:2mm 0 3mm 0;}
-.cover-subtitle{font-size:12pt;line-height:1.6;color:var(--ink2);margin:0;max-width:165mm;}
-.cover-hero{height:128mm;border-radius:var(--r2);overflow:hidden;border:1px solid var(--line2);background:#fff;transform:translateY(-6mm);}
-.cover-hero img{width:100%;height:100%;object-fit:cover;display:block;}
-.cover-bottom{display:flex;justify-content:space-between;gap:10mm;font-size:9.5pt;line-height:1.6;color:var(--muted);
-  border-top:1px solid var(--line2);padding-top:6mm;}
-.program-line{color:var(--ink2);font-size:10.5pt;line-height:1.6;}
-@media screen{.page{box-shadow:0 6mm 18mm rgba(0,0,0,.10);border-radius:6mm;}}
-#compile-status{position:fixed;left:12px;bottom:12px;z-index:9999;background:rgba(15,47,74,.92);color:#fff;
-  padding:10px 12px;border-radius:12px;font-size:12px;max-width:min(520px,92vw);line-height:1.35;}
-#compile-status a{color:#fff;text-decoration:underline;}
-#compile-status .muted{color:rgba(255,255,255,.78);}
-#compile-status.warn{background:rgba(183,28,28,.92);}
+
+body {
+  background: #ccc; /* Latar belakang abu-abu agar kertas putih terlihat jelas */
+  margin: 0;
+  padding: 20px;
+  font-family: sans-serif;
+}
+
+/* Kontainer utama dibuat sederhana */
+#doc {
+  background: var(--paper);
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px;
+  min-height: 100vh;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  display: block !important; /* Paksa muncul */
+  color: var(--ink);
+}
+
+/* Memastikan setiap bab terlihat */
+.report-part {
+  display: block !important;
+  margin-bottom: 50px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 20px;
+}
+
+/* Jika Paged.js membuat kontainer, jangan sembunyikan */
+.pagedjs_pages {
+  display: block !important;
+}
+
+/* Styling dasar agar teks terbaca */
+h1, .h1 { font-size: 24pt; color: red; }
+p { line-height: 1.6; margin-bottom: 1em; }
