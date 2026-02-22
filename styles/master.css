@@ -1,36 +1,44 @@
-/* EMERGENCY CSS - Diagnostic Mode */
-* {
-  box-sizing: border-box;
+/* SROI PTPL 2026 — master.css (Stable Version) */
+:root {
+  --canvas: #F5F7F9; --paper: #FFFFFF;
+  --ink: #0F2F4A; --ink2: #2C3E50; --muted: #6C7A86;
+  --red: #E53935; --red2: #B71C1C;
+  --line: rgba(15,47,74,.18); --line2: rgba(15,47,74,.08);
+  --pad: 22mm; --r: 6mm; --r2: 8mm;
 }
 
-body {
-  background-color: red !important; /* Latar merah untuk deteksi elemen putih */
-  margin: 0;
-  padding: 50px;
-  display: block !important;
-  visibility: visible !important;
+/* Reset Standar */
+html, body {
+  margin: 0; padding: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: Inter, system-ui, sans-serif;
+  scroll-behavior: smooth;
 }
 
+/* Container Utama */
 #doc {
-  background-color: white !important; /* Kotak konten harus putih */
-  color: black !important;
-  min-height: 500px;
-  width: 100%;
+  background: var(--paper);
+  width: 210mm; /* Lebar A4 */
+  margin: 20px auto;
+  padding: var(--pad);
+  min-height: 297mm;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
   display: block !important;
-  visibility: visible !important;
-  border: 10px solid yellow; /* Penanda batas container */
 }
 
-.report-part {
-  display: block !important;
-  visibility: visible !important;
-  border-bottom: 2px solid black;
-  padding: 20px;
-  margin: 10px 0;
+/* Memastikan elemen Paged.js tidak merusak tampilan preview */
+.pagedjs_pages {
+  background: var(--canvas) !important;
+  display: block;
 }
 
-/* Matikan paksa Paged.js CSS agar tidak mengintervensi */
-.pagedjs_pages, .pagedjs_page {
-  display: block !important;
-  transform: none !important;
+/* Copy-paste kembali semua class desain Anda di sini (.h1, .card, .stat, dsb) */
+.h1 { font-size: 30pt; font-weight: 900; margin: 0 0 6mm 0; line-height: 1.05; }
+.card { padding: 8mm; border-radius: var(--r); border: 1px solid var(--line2); background: var(--paper); }
+/* ... (masukkan sisa class desain Anda yang lain) ... */
+
+@media print {
+  body { background: none; }
+  #doc { margin: 0; box-shadow: none; width: 100%; }
 }
