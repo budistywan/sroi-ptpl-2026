@@ -1,9 +1,4 @@
-/**
- * SROI PTPL 2026 - Revised Compiler Script
- * Berfungsi untuk menggabungkan semua partial HTML sebelum dirender oleh Paged.js
- */
-
-(async function() {
+(async function(){
   const status = (msg, type = "ok") => {
     let el = document.getElementById("compile-status");
     if (!el) {
@@ -16,70 +11,55 @@
   };
 
   async function fetchText(url) {
-    // Tambahkan cache breaker untuk menghindari file lama tersangkut di browser saat update di GitHub
+    // Tambahkan timestamp agar tidak terkena cache lama dari GitHub
     const r = await fetch(`${url}?t=${new Date().getTime()}`, { cache: "no-store" });
-    if (!r.ok) throw new Error(`Status ${r.status}: ${url}`);
+    if (!r.ok) throw new Error(`Fetch failed ${r.status}: ${url}`);
     return await r.text();
   }
 
-  const mount = document.getElementById("doc");
-  if (!mount) {
-    status("Error: Elemen #doc tidak ditemukan di compile.html", "warn");
-    return;
-  }
-
   try {
-    // 1. Ambil Manifest
-    status("Membaca manifest...");
-    const manifestResponse = await fetch("scripts/manifest.json");
-    if (!manifestResponse.ok) throw new Error("File manifest.json tidak ditemukan.");
-    const manifest = await manifestResponse.json();
+    // 1. Load Manifest
+    const manifestRaw = await fetchText("scripts/manifest.json");
+    const manifest = JSON.parse(manifestRaw);
 
-    // 2. Kumpulkan semua konten ke dalam Buffer (Variabel)
-    let fullHTML = "";
-    let okCount = 0;
-    
-    status(`Memuat ${manifest.parts.length} bagian laporan...`);
+    const mount = document.getElementById("doc");
+    if (!mount) throw new Error("#doc tidak ditemukan di html");
 
-    for (const path of manifest.parts) {
+    // 2. Kumpulkan semua konten dalam satu variabel String
+    let allContent = "";
+    let ok = 0;
+
+    status(`Memuat ${manifest.parts.length} bagian...`);
+
+    for (const p of manifest.parts) {
       try {
-        const content = await fetchText(path);
-        // Membungkus setiap bagian dengan tag section untuk menjaga struktur
-        fullHTML += `<section class="report-part" data-source="${path}">${content}</section>`;
-        okCount++;
+        const html = await fetchText(p);
+        // Bungkus dengan div agar struktur antar bab tidak berantakan
+        allContent += `<div class="report-part" data-source="${p}">${html}</div>`;
+        ok++;
       } catch (e) {
-        console.error(`Gagal memuat bagian: ${path}`, e);
-        status(`Gagal memuat: ${path}. Pastikan nama file/folder benar.`, "warn");
+        console.error(`Gagal load: ${p}`, e);
+        status(`Gagal load: ${p}`, "warn");
       }
     }
 
-    // 3. Masukkan semua konten SEKALIGUS ke DOM
-    // Ini krusial agar Paged.js tidak memproses dokumen yang setengah jadi
-    mount.innerHTML = fullHTML;
-    status(`Berhasil memuat ${okCount}/${manifest.parts.length} bagian. Menyiapkan layout buku...`);
+    // 3. Masukkan ke DOM SEKALIGUS (Nuclear Fix)
+    // Ini jauh lebih stabil daripada memindahkan node satu per satu
+    mount.innerHTML = allContent;
+    
+    status(`Berhasil muat ${ok}/${manifest.parts.length} file.`);
 
-    // 4. Jalankan Paged.js
-    const runPagedJs = () => {
+    // 4. Jalankan Paged.js (Opsional, jika ingin coba render lagi)
+    const runPaged = () => {
       if (window.PagedPolyfill && typeof window.PagedPolyfill.preview === "function") {
-        window.PagedPolyfill.preview()
-          .then(() => {
-            status(`Laporan SROI siap! ${okCount} bagian terload. Gunakan Ctrl+P untuk cetak.`);
-          })
-          .catch(err => {
-            status(`Paged.js bermasalah: ${err.message}`, "warn");
-          });
-      } else {
-        status("Paged.js (Polyfill) belum siap. Menunggu...", "warn");
-        // Coba lagi dalam 1 detik jika polyfill belum siap
-        setTimeout(runPagedJs, 1000);
+        window.PagedPolyfill.preview().then(() => status("Selesai! Siap cetak."));
       }
     };
 
-    // Berikan sedikit jeda agar DOM benar-benar stabil
-    //setTimeout(runPagedJs, 500);
+    // Uncomment baris di bawah ini jika ingin mengaktifkan Paged.js kembali
+    // setTimeout(runPaged, 1000);
 
-  } catch (err) {
-    status(`Error Fatal: ${err.message}`, "warn");
-    console.error(err);
+  } catch (e) {
+    status(`Error Fatal: ${e.message}`, "warn");
   }
 })();
