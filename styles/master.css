@@ -1,30 +1,26 @@
-/* SROI PTPL 2026 — Ultimate Executive Edition */
+/* SROI PTPL 2026 — Master CSS Premium (Coordinate Fixed) */
 
-/* Import font Serif untuk Judul dan Sans untuk Data */
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;800&display=swap');
 
 :root {
     --canvas: #F4F7F9;
     --paper: #FFFFFF;
     --ink: #1A202C;
-    --red: #C53030; /* Deep Red yang lebih berwibawa */
+    --red: #C53030;
     --muted: #718096;
     --line: #E2E8F0;
-    --pad: 25mm;
 }
 
-* { box-sizing: border-box; }
-
-/* --- Pengaturan Halaman Paged.js --- */
+/* --- 1. KOORDINAT FISIK HALAMAN (PAGED.JS) --- */
 @page {
     size: A4;
-    margin: 35mm 20mm 30mm 20mm; /* Margin atas lebih lega untuk Header */
+    margin: 35mm 20mm 30mm 20mm; /* Area margin fisik kertas */
 
     @top-left {
         content: string(title);
         font-family: 'Inter', sans-serif;
         font-size: 8pt;
-        font-weight: 600;
+        font-weight: 700;
         color: var(--red);
         text-transform: uppercase;
         letter-spacing: 0.15em;
@@ -37,61 +33,61 @@
         content: "Halaman " counter(page);
         font-family: 'Inter', sans-serif;
         font-size: 8.5pt;
-        color: var(--muted);
+        font-weight: 800;
+        padding: 2mm 4mm;
+        background: var(--ink);
+        color: white;
     }
 }
 
-/* Mengambil judul bab untuk Header */
+/* Menangkap Judul untuk Header */
 section.page, .report-part-wrapper { 
     string-set: title attr(data-running-title); 
 }
 
-/* --- Tampilan Layar --- */
-body {
+/* --- 2. RESET CONTAINER (Mencegah Kerancuan Spasi) --- */
+html, body {
+    margin: 0; padding: 0;
     background: var(--canvas);
-    font-family: 'Inter', sans-serif;
-    color: var(--ink);
 }
 
+/* Elemen ini harus 'telanjang' karena Paged.js akan membungkusnya lagi */
 .page {
-    background: var(--paper);
-    padding: var(--pad);
-    width: 210mm;
-    height: auto !important;
-    margin: 10mm auto;
-    overflow: visible !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
     display: block;
 }
 
-/* --- Tipografi Premium --- */
+/* Styling lembaran kertas yang muncul di browser */
+.pagedjs_page {
+    background: white !important;
+    margin: 10mm auto !important;
+    box-shadow: 0 0 25px rgba(0,0,0,0.1);
+}
+
+/* --- 3. TIPOGRAFI EXECUTIVE --- */
 .h1 {
-    font-family: 'Libre Baskerville', serif; /* Serif agar terlihat seperti dokumen negara/hukum */
+    font-family: 'Libre Baskerville', serif;
     font-size: 34pt;
     font-weight: 700;
     line-height: 1.1;
-    margin: 0 0 8mm 0;
+    margin: 0 0 10mm 0; /* Memberi jarak ke konten bawah, bukan ke header */
     color: var(--ink);
 }
 
-.kicker {
-    font-family: 'Inter', sans-serif;
-    font-size: 9pt;
-    font-weight: 800;
-    color: var(--red);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 4mm;
-    display: block;
-}
-
 .prose p {
+    font-family: 'Inter', sans-serif;
     font-size: 11pt;
-    line-height: 1.75;
+    line-height: 1.8;
     margin-bottom: 5mm;
     text-align: justify;
+    color: var(--ink);
 }
 
-/* --- Komponen Grid & Card --- */
+/* --- 4. GRID & KOMPONEN --- */
 .grid {
     display: flex !important;
     gap: 12mm;
@@ -102,21 +98,17 @@ body {
 .span-4 { 
     flex: 1; 
     border-left: 1px solid var(--line); 
-    padding-left: 8mm; 
-}
-
-/* Keterangan Box di sisi kanan */
-.side-note {
+    padding-left: 8mm;
     font-size: 9.5pt;
     color: var(--muted);
-    font-style: italic;
 }
 
-/* Garis Signature */
+/* Garis tanda tangan */
 .sig-line {
     margin-top: 20mm;
     border-top: 1px solid var(--ink);
     width: 60mm;
     padding-top: 2mm;
-    font-weight: 700;
+    font-weight: 800;
+    font-size: 10pt;
 }
