@@ -76,7 +76,7 @@
     };
 
     // Berikan sedikit jeda agar DOM benar-benar stabil
-    setTimeout(runPagedJs, 500);
+    //setTimeout(runPagedJs, 500);
 
   } catch (err) {
     status(`Error Fatal: ${err.message}`, "warn");
