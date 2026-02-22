@@ -1,41 +1,42 @@
-/* Diagnostic CSS - Memastikan konten muncul */
+/* CSS Diagnostik - Memastikan Konten Terbaca */
 :root {
-  --ink: #0f2f4a;
-  --paper: #ffffff;
+  --ink: #0F2F4A;
+  --paper: #FFFFFF;
 }
 
-body {
-  background: #ccc; /* Latar belakang abu-abu agar kertas putih terlihat jelas */
+/* 1. Paksa Body & Main agar tidak hilang */
+html, body {
+  background-color: #D1D5DB !important; /* Latar abu-abu agar kertas putih terlihat */
   margin: 0;
   padding: 20px;
-  font-family: sans-serif;
+  display: block !important;
 }
 
-/* Kontainer utama dibuat sederhana */
 #doc {
-  background: var(--paper);
-  max-width: 800px;
+  background: var(--paper) !important;
+  color: var(--ink) !important;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 40px;
+  padding: 50px;
   min-height: 100vh;
-  box-shadow: 0 0 20px rgba(0,0,0,0.2);
-  display: block !important; /* Paksa muncul */
-  color: var(--ink);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  display: block !important; /* Mencegah disembunyikan JS */
+  visibility: visible !important;
 }
 
-/* Memastikan setiap bab terlihat */
+/* 2. Pastikan tiap bagian laporan terlihat */
 .report-part {
   display: block !important;
-  margin-bottom: 50px;
-  border-bottom: 1px solid #eee;
+  margin-bottom: 40px;
+  border-bottom: 1px solid #EEE;
   padding-bottom: 20px;
 }
 
-/* Jika Paged.js membuat kontainer, jangan sembunyikan */
+/* 3. Mencegah Paged.js menyembunyikan konten jika proses gagal */
 .pagedjs_pages {
   display: block !important;
 }
 
-/* Styling dasar agar teks terbaca */
-h1, .h1 { font-size: 24pt; color: red; }
-p { line-height: 1.6; margin-bottom: 1em; }
+/* Styling dasar agar teks tidak putih di atas putih */
+h1, .h1 { color: #B71C1C; font-size: 24pt; margin-top: 20px; }
+p { line-height: 1.6; margin-bottom: 15px; font-size: 12pt; }
