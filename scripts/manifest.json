@@ -1,0 +1,14 @@
+{
+  "partials": [
+    "bab-00-pengantar/00-cover.partial.html",
+    "bab-00-pengantar/01-pengesahan.partial.html",
+    "bab-00-pengantar/02-kata-pengantar.partial.html",
+    "bab-00-pengantar/03-ringkasan-eksekutif.partial.html",
+    "bab-00-pengantar/04-daftar-isi.partial.html",
+    "bab-01-pendahuluan/01-01-latar-belakang.partial.html",
+    "bab-01-pendahuluan/01-02-tujuan-luaran.partial.html",
+    "bab-01-pendahuluan/01-03-ruang-lingkup.partial.html",
+    "bab-01-pendahuluan/01-04-konsiderasi-hukum.partial.html",
+    "bab-07-implementasi/07-09-monetisasi-dampak.partial.html"
+  ]
+}

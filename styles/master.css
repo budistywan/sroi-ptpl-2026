@@ -1,0 +1,346 @@
+/* =========================================================
+   SROI REPORT – MASTER CSS v1
+   Mode: Modern – Navy Clean – PDF First (Paged.js ready)
+   Notes:
+   - Works in normal browser (flowing) AND with Paged.js pagination.
+   - Avoids blank page by not hiding content before polyfill.
+========================================================= */
+
+:root{
+  --canvas:#F5F7F9;
+  --paper:#FFFFFF;
+
+  --ink:#0F2F4A;
+  --ink-2:#2C3E50;
+  --muted:#6C7A86;
+
+  --accent:#E53935;
+
+  --line:rgba(15,47,74,.18);
+  --line-soft:rgba(15,47,74,.08);
+
+  --tint-navy:rgba(15,47,74,.05);
+  --tint-red:rgba(229,57,53,.06);
+
+  --radius:14px;
+  --radius-lg:18px;
+
+  --page-pad:22mm;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  background:var(--canvas);
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+
+@page{
+  size:A4 portrait;
+  margin: 18mm 18mm 18mm 18mm; /* for Paged.js pages */
+}
+
+/* ===== Preview wrapper (screen) ===== */
+#shell{
+  max-width: 980px;
+  margin: 18px auto 60px auto;
+  padding: 0 14px;
+}
+#topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  color:var(--muted);
+  font-size: 13px;
+  margin: 8px 0 14px 0;
+}
+#status{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 10px;
+  border:1px solid var(--line-soft);
+  border-radius:999px;
+  background:#fff;
+}
+.dot{
+  width:10px;height:10px;border-radius:999px;
+  background:var(--accent);
+  opacity:.85;
+}
+
+/* ===== Document root (content container) ===== */
+#doc{
+  background:transparent;
+}
+
+/* In screen mode, we show "pages" as cards.
+   In paged mode, Paged.js will wrap content; these styles won't hurt. */
+.page{
+  width: 210mm;
+  min-height: 297mm;
+  box-sizing:border-box;
+  padding: var(--page-pad);
+  background:var(--paper);
+  margin: 0 auto 14mm auto;
+  border-radius: 16px;
+  box-shadow: 0 24px 64px rgba(0,0,0,.10);
+  position:relative;
+  overflow:hidden;
+}
+
+@media print{
+  #shell, #topbar{ display:none !important; }
+  body{ background:#fff; }
+  .page{ box-shadow:none; border-radius:0; margin:0; }
+}
+
+/* ===== Typography ===== */
+.kicker{
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px 0;
+}
+.h1{
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin: 0 0 10px 0;
+}
+.h2{
+  font-size: 22px;
+  font-weight: 850;
+  color: var(--ink);
+  margin: 0 0 8px 0;
+}
+.h3{
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 0 0 8px 0;
+}
+.deck{
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--ink-2);
+  margin: 0;
+  max-width: 760px;
+}
+.prose{
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: var(--ink-2);
+}
+.prose p{ margin: 0 0 14px 0; text-align: justify; hyphens:auto; }
+.muted{ color: var(--muted); }
+
+/* ===== Dividers ===== */
+.rule{ height:1px; background:var(--line-soft); margin: 16px 0; }
+.rule-accent{ height:2px; width: 180px; background: var(--accent); border-radius: 999px; margin-top: 12px; }
+
+/* ===== Grid ===== */
+.grid{
+  display:grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 18px;
+}
+.span-12{ grid-column: 1 / span 12; }
+.span-8{ grid-column: 1 / span 8; }
+.span-4{ grid-column: 9 / span 4; }
+.span-6{ grid-column: 1 / span 6; }
+.span-6b{ grid-column: 7 / span 6; }
+
+@media print{
+  .grid{ gap: 6mm; }
+}
+
+/* ===== Components ===== */
+.card{
+  padding: 18px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line-soft);
+  background: #fff;
+}
+.callout{
+  padding: 18px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(229,57,53,.22);
+  background: var(--tint-red);
+}
+.stat{
+  padding: 18px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line-soft);
+  background:#fff;
+}
+.stat .num{
+  font-size: 40px;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.stat .label{
+  margin-top: 8px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: var(--muted);
+}
+.stat .note{
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line-soft);
+  background: rgba(15,47,74,.03);
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.badge .b-dot{
+  width: 8px; height: 8px; border-radius: 999px;
+  background: var(--accent);
+}
+
+.contents{
+  font-size: 14px;
+}
+.contents-row{
+  display:flex;
+  justify-content:space-between;
+  gap: 18px;
+  padding: 10px 0;
+  border-bottom: 1px dotted var(--line-soft);
+}
+.contents-row .title{ font-weight: 650; color: var(--ink-2); }
+.contents-row .page-no{ color: var(--muted); white-space:nowrap; }
+.indent-1{ padding-left: 14px; font-weight: 560; }
+.indent-2{ padding-left: 28px; font-weight: 480; color: var(--muted); }
+
+/* ===== Table ===== */
+.table{
+  width:100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.table th, .table td{
+  border:1px solid var(--line-soft);
+  padding: 10px;
+  vertical-align: top;
+}
+.table th{
+  background: var(--tint-navy);
+  color: var(--ink);
+  font-weight: 850;
+}
+.table td.num{ text-align:right; white-space:nowrap; }
+.table tbody tr:nth-child(odd){ background: rgba(15,47,74,.02); }
+.table tbody tr.emph td{ background: rgba(229,57,53,.06); font-weight: 850; }
+
+/* ===== Cover (no red band, multi-layer title, hero rectangle) ===== */
+.cover{
+  padding-top: 18mm;
+}
+.cover-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap: 20px;
+}
+.cover-titleblock{
+  max-width: 720px;
+}
+.cover-title-1{
+  font-size: 12px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px 0;
+}
+.cover-title-2{
+  font-size: 44px;
+  font-weight: 950;
+  color: var(--ink);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin: 0 0 10px 0;
+}
+.cover-title-3{
+  font-size: 16px;
+  font-weight: 750;
+  color: var(--ink-2);
+  margin: 0;
+}
+.cover-logo{
+  width: 56mm;
+  height:auto;
+}
+.cover-hero{
+  margin-top: 18mm;
+  height: 120mm;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line-soft);
+  overflow:hidden;
+  background:#fff;
+}
+.cover-hero img{
+  width:100%;
+  height:100%;
+  object-fit: cover;
+  display:block;
+}
+.cover-footer{
+  position:absolute;
+  left: var(--page-pad);
+  right: var(--page-pad);
+  bottom: 16mm;
+  display:flex;
+  justify-content:space-between;
+  gap: 16px;
+  align-items:flex-end;
+}
+.cover-programline{
+  font-size: 11px;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.cover-programline .sep{ opacity:.55; padding: 0 8px; }
+.cover-meta{
+  text-align:right;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ===== Paged.js adjustments ===== */
+.pagedjs_pages{
+  margin: 0 auto;
+}
+.pagedjs_page{
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
