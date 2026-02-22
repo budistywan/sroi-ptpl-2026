@@ -1,14 +1,38 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SROI PTPL 2026 — compile</title>
-  <link rel="stylesheet" href="styles/master.css" />
-  <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SROI Compiler — PTPL 2026</title>
+    
+    <link rel="stylesheet" href="styles/master.css">
+    
+    <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
+
+    <style>
+        /* Status bar sederhana di pojok kiri bawah */
+        #compile-status {
+            position: fixed;
+            bottom: 15px; left: 15px;
+            padding: 8px 15px;
+            background: #0F2F4A;
+            color: white;
+            font-family: sans-serif;
+            font-size: 12px;
+            border-radius: 20px;
+            z-index: 9999;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        #compile-status.warn { background: #E53935; }
+    </style>
 </head>
 <body>
-  <main id="doc"></main>
-  <script src="scripts/compile.js"></script>
+
+    <div id="compile-status">Inisialisasi...</div>
+
+    <main id="doc"></main>
+
+    <script src="scripts/compile.js"></script>
+
 </body>
 </html>
