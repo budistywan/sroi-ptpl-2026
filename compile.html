@@ -3,30 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SROI PT Pertamina Lubricants — 2023–2025</title>
-
+  <title>SROI PTPL 2026 — compile</title>
   <link rel="stylesheet" href="styles/master.css" />
-
-  <!-- Optional: pre-load Paged.js; compile.js will still fallback to CDN if missing -->
-  <script defer src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
-  <script defer src="scripts/compile.js"></script>
+  <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
 </head>
-
 <body>
-  <div id="shell">
-    <div id="topbar">
-      <div class="pill" id="status">
-        <span class="dot" aria-hidden="true"></span>
-        <span data-status-text>Booting…</span>
-      </div>
-      <div class="muted">Tip: setelah READY → Print → Save as PDF</div>
-    </div>
-
-    <!-- If anything fails, we show error but keep content visible -->
-    <pre id="errorbox" hidden class="card" style="white-space:pre-wrap; border-color: rgba(229,57,53,.25); background: rgba(229,57,53,.04);"></pre>
-
-    <!-- Partials will be injected here (visible even without Paged.js) -->
-    <main id="doc"></main>
-  </div>
+  <main id="doc"></main>
+  <script src="scripts/compile.js"></script>
 </body>
 </html>

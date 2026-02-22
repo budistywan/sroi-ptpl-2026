@@ -1,10 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="420" height="120" viewBox="0 0 420 120">
-  <rect width="420" height="120" rx="18" fill="#0F2F4A"/>
-  <g transform="translate(28,26)">
-    <rect x="0" y="0" width="68" height="68" rx="14" fill="#FFFFFF" opacity="0.12"/>
-    <path d="M22 46 L34 22 L46 46 Z" fill="#E53935"/>
-    <circle cx="34" cy="48" r="6" fill="#FFFFFF"/>
+  <rect width="420" height="120" fill="white"/>
+  <g transform="translate(20,22)">
+    <rect x="0" y="0" width="42" height="42" rx="6" fill="#0F2F4A"/>
+    <rect x="10" y="10" width="22" height="22" rx="4" fill="#E53935"/>
+    <text x="62" y="30" font-family="Inter, Arial" font-size="26" font-weight="800" fill="#0F2F4A">PERTAMINA</text>
+    <text x="62" y="58" font-family="Inter, Arial" font-size="22" font-weight="700" fill="#E53935">LUBRICANTS</text>
   </g>
-  <text x="118" y="56" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800" fill="#FFFFFF">PERTAMINA</text>
-  <text x="118" y="86" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700" fill="#E53935">LUBRICANTS</text>
 </svg>
