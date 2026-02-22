@@ -1,33 +1,63 @@
-/* SROI PTPL 2026 — master.css (Anti-Blank Version) */
+/* SROI PTPL 2026 — master.css (Resilient Edition) */
 
-/* 1. JANGAN biarkan .page membatasi tinggi saat Paged.js sedang bekerja */
+:root {
+  --canvas: #F5F7F9; --paper: #FFFFFF;
+  --ink: #0F2F4A; --red: #E53935;
+  --pad: 22mm;
+}
+
+/* Reset Dasar */
+html, body {
+  margin: 0; padding: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: sans-serif; /* Ganti dengan font Anda jika sudah ada */
+}
+
+/* Kontainer #doc harus terlihat agar teks tidak 'hanya putih'
+   saat Paged.js gagal atau belum berjalan.
+*/
+#doc {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Elemen .page harus fleksibel. 
+   Paged.js akan mengubah ini menjadi layout A4 yang nyata.
+*/
 .page {
   width: 210mm;
-  /* Hapus min-height atau height statis yang kaku */
-  min-height: auto !important; 
-  margin: 0 auto;
-  background: white;
+  min-height: 297mm; /* Min-height lebih aman daripada Height */
+  margin: 10mm auto;
+  background: var(--paper);
   padding: var(--pad);
   position: relative;
-  /* PENTING: Jangan hidden, biarkan pagedjs yang mengatur overflow */
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  
+  /* Kunci utama: jangan potong konten secara paksa (overflow hidden) */
   overflow: visible !important; 
   display: block;
+  box-sizing: border-box;
 }
 
-/* 2. Beri tahu Paged.js ukuran kertas yang sebenarnya */
+/* Memastikan elemen grid/tabel tidak terpotong di tengah secara buruk */
+.grid, table, img, .card {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+/* Setup Paged.js */
 @page {
   size: A4;
-  margin: 0; 
+  margin: 0;
 }
 
-/* 3. Pastikan kontainer hasil Paged.js dipaksa muncul */
 .pagedjs_pages {
   display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
+  background: var(--canvas) !important;
 }
 
-/* 4. Hindari elemen yang "terlalu kaku" untuk dipotong */
-.grid, .card, table, img {
-  break-inside: avoid;
-}
+/* Tambahkan styling tipografi Anda di bawah sini (.h1, .kicker, dsb) */
+.h1 { font-size: 32pt; font-weight: bold; line-height: 1.1; margin-bottom: 5mm; }
+.kicker { color: var(--red); font-weight: bold; text-transform: uppercase; font-size: 9pt; }
