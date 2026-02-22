@@ -1,50 +1,182 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SROI Report — Paged.js Compile</title>
+  <meta charset="UTF-8" />
+  <title>Kajian Social Return on Investment – PTPL 2026</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <link rel="stylesheet" href="styles/master.css">
+  <!-- Master Styles -->
+  <link rel="stylesheet" href="styles/master.css" />
 
-  <!-- Paged.js polyfill (offline): paste official paged.polyfill.js into scripts/paged.polyfill.js -->
-  <script src="scripts/paged.polyfill.js"></script>
-  <script src="scripts/paged-init.js"></script>
-
-  <style>
-    /* Flow container (will be paginated by Paged.js) */
-    #flow {
-      max-width: 210mm;
-      margin: 0 auto;
-      padding: 10mm 0 18mm 0;
-    }
-    /* After Paged.js pages appear, hide raw flow to avoid duplicates */
-    .pagedjs_pages + #flow { display:none; }
-  </style>
+  <!-- Font (optional modern clean) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
-  <main id="flow" aria-label="SROI flow document (Paged.js will paginate)"></main>
 
-  <script>
-    const partials = ['bab-00-pengantar/00-01-cover.html', 'bab-00-pengantar/00-05-daftar-isi.html', 'bab-01-pendahuluan/01-00-opening.html', 'bab-01-pendahuluan/01-01-latar-belakang.html'];
-    const flow = document.getElementById("flow");
+  <!-- ========================= -->
+  <!-- KELENGKAPAN DEPAN -->
+  <!-- ========================= -->
 
-    async function loadPartials(){
-      for (const file of partials){
-        const res = await fetch(file, { cache: "no-store" });
-        if (!res.ok) {
-          console.warn("Missing file:", file, res.status);
-          continue;
-        }
-        const html = await res.text();
-        const temp = document.createElement("div");
-        temp.innerHTML = html.trim();
-        Array.from(temp.children).forEach(node => flow.appendChild(node));
-      }
-    }
+  <section class="chapter cover">
+    <!-- include cover content here OR copy paste cover html -->
+  </section>
 
-    loadPartials();
-  </script>
+  <section class="chapter">
+    <!-- halaman pengesahan -->
+  </section>
+
+  <section class="chapter">
+    <!-- kata pengantar -->
+  </section>
+
+  <section class="chapter">
+    <!-- ringkasan eksekutif -->
+  </section>
+
+  <section class="chapter">
+    <!-- daftar isi -->
+  </section>
+
+  <section class="chapter">
+    <!-- daftar tabel -->
+  </section>
+
+  <section class="chapter">
+    <!-- daftar gambar -->
+  </section>
+
+  <!-- ========================= -->
+  <!-- BAB I -->
+  <!-- ========================= -->
+
+  <section class="chapter">
+    <h1 class="chapter-title">
+      BAB I<br>
+      PENDAHULUAN
+    </h1>
+
+    <!-- 1.1 -->
+    <article class="subchapter">
+      <h2>1.1 Latar Belakang Penulisan SROI</h2>
+    </article>
+
+    <article class="subchapter">
+      <h2>1.2 Tujuan dan Luaran</h2>
+    </article>
+
+    <article class="subchapter">
+      <h2>1.3 Ruang Lingkup Studi</h2>
+    </article>
+
+    <article class="subchapter">
+      <h2>1.4 Konsiderasi Hukum</h2>
+    </article>
+  </section>
+
+  <!-- ========================= -->
+  <!-- BAB II -->
+  <!-- ========================= -->
+
+  <section class="chapter">
+    <h1 class="chapter-title">
+      BAB II<br>
+      PROFIL PERUSAHAAN
+    </h1>
+  </section>
+
+  <!-- ========================= -->
+  <!-- BAB III -->
+  <!-- ========================= -->
+
+  <section class="chapter">
+    <h1 class="chapter-title">
+      BAB III<br>
+      METODOLOGI SROI DAN TRIPLE LOOP LEARNING
+    </h1>
+  </section>
+
+  <!-- ========================= -->
+  <!-- BAB IV -->
+  <!-- ========================= -->
+
+  <section class="chapter">
+    <h1 class="chapter-title">
+      BAB IV<br>
+      IDENTIFIKASI KONDISI AWAL
+    </h1>
+  </section>
+
+  <!-- ========================= -->
+  <!-- BAB V -->
+  <!-- ========================= -->
+
+  <section class="chapter">
+    <h1 class="chapter-title">
+      BAB V<br>
+      IDENTIFIKASI KONDISI IDEAL
+    </h1>
+  </section>
+
+  <!-- ========================= -->
+  <!-- BAB VI -->
+  <!-- ========================= -->
+
+  <section class="chapter">
+    <h1 class="chapter-title">
+      BAB VI<br>
+      STRATEGI
+    </h1>
+  </section>
+
+  <!-- ========================= -->
+  <!-- BAB VII -->
+  <!-- ========================= -->
+
+  <section class="chapter">
+    <h1 class="chapter-title">
+      BAB VII<br>
+      IMPLEMENTASI
+    </h1>
+  </section>
+
+  <!-- ========================= -->
+  <!-- BAB VIII -->
+  <!-- ========================= -->
+
+  <section class="chapter">
+    <h1 class="chapter-title">
+      BAB VIII<br>
+      TRIPLE LOOP LEARNING
+    </h1>
+  </section>
+
+  <!-- ========================= -->
+  <!-- BAB IX -->
+  <!-- ========================= -->
+
+  <section class="chapter">
+    <h1 class="chapter-title">
+      BAB IX<br>
+      PENUTUP
+    </h1>
+  </section>
+
+  <!-- ========================= -->
+  <!-- BAB X -->
+  <!-- ========================= -->
+
+  <section class="chapter">
+    <h1 class="chapter-title">
+      BAB X<br>
+      KOMPONENSI PENYUSUN
+    </h1>
+  </section>
+
+
+  <!-- Paged.js (render A4 automatically) -->
+  <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
+
 </body>
 </html>
