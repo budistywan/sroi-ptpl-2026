@@ -1,4 +1,4 @@
-/* SROI PTPL 2026 — Master CSS Final (Anti-Overlap & Precision Layout) */
+/* SROI PTPL 2026 — Master CSS Final (Precision Calibration) */
 
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;800&display=swap');
 
@@ -9,27 +9,27 @@
     --line: #E2E8F0;
 }
 
-/* --- 1. ENGINE PAGINATION (SOLUSI TUMPANG TINDIH) --- */
+/* --- 1. ENGINE PAGINATION (SOLUSI OVERLAP & BLANK PAGE) --- */
 .page {
     width: 210mm;
-    min-height: 297mm; /* Tinggi A4 */
+    min-height: 296mm; 
     margin: 0 auto;
     padding: 0 20mm;
     background: white;
     display: block;
     position: relative;
     
-    /* Memaksa setiap <section class="page"> menjadi halaman baru secara mutlak */
+    /* Memisahkan halaman secara mutlak */
     break-after: page !important;
     page-break-after: always !important;
 }
 
-/* Mengatur alur teks otomatis antar halaman */
+/* Menangkap Judul Berjalan */
 section.page { 
     string-set: title attr(data-running-title); 
 }
 
-/* --- 2. KONFIGURASI MARGIN & NAVIGASI FLOATING --- */
+/* --- 2. KONFIGURASI MARGIN & NAVIGASI --- */
 @page {
     size: A4;
     margin: 30mm 0mm 20mm 0mm;
@@ -62,16 +62,29 @@ section.page {
     }
 }
 
-/* Khusus Halaman Pertama (Cover): Sembunyikan Navigasi */
+/* Khusus Cover: Menghilangkan Header/Footer & Kalibrasi Ulang */
 @page :first {
     margin-top: 15mm;
     @top-left { content: none; } 
     @bottom-right { content: none; }
 }
 
-[data-running-title="Cover"] { string-set: title ""; }
+/* Menghilangkan String Title khusus di Cover agar tidak merender apapun di atas */
+[data-running-title="Cover"] { 
+    string-set: title ""; 
+}
 
-/* --- 3. TYPOGRAPHY --- */
+/* --- 3. RE-FIX UNTUK COVER (Mencegah Putih/Blank) --- */
+[data-running-title="Cover"] .cover-wrap {
+    height: 260mm; /* Menentukan tinggi pasti agar tidak dianggap overflow */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    z-index: 10;
+}
+
+/* --- 4. TYPOGRAPHY --- */
 .h1 {
     font-family: 'Libre Baskerville', serif;
     font-size: 32pt;
@@ -107,16 +120,11 @@ section.page {
     margin-bottom: 4mm;
 }
 
-/* --- 4. KOMPONEN COVER --- */
-.cover-wrap {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding-bottom: 10mm;
-}
-
+/* --- 5. KOMPONEN COVER --- */
 .cover-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.cover-title { font-family: 'Libre Baskerville', serif; font-size: 32pt; font-weight: 700; color: var(--p-navy); margin: 4mm 0; }
+.cover-subtitle { font-size: 14pt; color: var(--p-navy); line-height: 1.5; margin: 0; }
+.rule-red { width: 60mm; height: 2mm; background: var(--p-red); margin-top: 6mm; }
 .logo { width: 55mm; height: auto; }
 
 .cover-hero {
@@ -137,12 +145,11 @@ section.page {
     border-top: 1px solid var(--line);
     padding-top: 8mm;
 }
-
 .program-line { font-weight: 700; font-size: 9.5pt; color: var(--p-navy); max-width: 140mm; }
-.right { text-align: right; }
 
-/* --- 5. GRID SYSTEM UNTUK HALAMAN ISI --- */
+/* --- 6. GRID & LAYOUT --- */
 .grid { display: flex; gap: 10mm; margin-top: 8mm; }
 .span-8 { flex: 2; }
 .span-4 { flex: 1; background: var(--p-blue-soft); padding: 6mm; border-top: 3px solid var(--p-red); }
-.span-6 { flex: 1; border: 1px solid var(--line); padding: 6mm; border-radius: 4px; }
+.span-6 { flex: 1; border: 1px solid var(--line); padding: 6mm; }
+.right { text-align: right; }
