@@ -1,4 +1,4 @@
-/* SROI PTPL 2026 — Master CSS Final (Precision Calibration) */
+/* SROI PTPL 2026 — Master CSS Final (Anti-Blank & Anti-Overlap) */
 
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;800&display=swap');
 
@@ -7,29 +7,29 @@
     --p-blue-soft: #F0F7FF; 
     --p-navy: #0A1929;      
     --line: #E2E8F0;
+    --paper: #FFFFFF;
 }
 
-/* --- 1. ENGINE PAGINATION (SOLUSI OVERLAP & BLANK PAGE) --- */
+/* --- 1. ENGINE PAGINATION (SOLUSI MUTLAK) --- */
 .page {
     width: 210mm;
     min-height: 296mm; 
     margin: 0 auto;
     padding: 0 20mm;
-    background: white;
+    background: var(--paper);
     display: block;
     position: relative;
-    
-    /* Memisahkan halaman secara mutlak */
+    /* Memaksa setiap <section class="page"> jadi halaman baru */
     break-after: page !important;
     page-break-after: always !important;
 }
 
-/* Menangkap Judul Berjalan */
+/* Menangkap Running Title untuk Header Otomatis */
 section.page { 
     string-set: title attr(data-running-title); 
 }
 
-/* --- 2. KONFIGURASI MARGIN & NAVIGASI --- */
+/* --- 2. GLOBAL MARGIN & FLOATING SYSTEM --- */
 @page {
     size: A4;
     margin: 30mm 0mm 20mm 0mm;
@@ -62,26 +62,24 @@ section.page {
     }
 }
 
-/* Khusus Cover: Menghilangkan Header/Footer & Kalibrasi Ulang */
+/* --- 3. FIX COVER (Mencegah Halaman Putih) --- */
 @page :first {
     margin-top: 15mm;
     @top-left { content: none; } 
     @bottom-right { content: none; }
 }
 
-/* Menghilangkan String Title khusus di Cover agar tidak merender apapun di atas */
 [data-running-title="Cover"] { 
     string-set: title ""; 
 }
 
-/* --- 3. RE-FIX UNTUK COVER (Mencegah Putih/Blank) --- */
+/* Memastikan konten cover tidak dianggap meluap/overflow */
 [data-running-title="Cover"] .cover-wrap {
-    height: 260mm; /* Menentukan tinggi pasti agar tidak dianggap overflow */
+    height: 255mm; 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    position: relative;
-    z-index: 10;
+    page-break-inside: avoid;
 }
 
 /* --- 4. TYPOGRAPHY --- */
@@ -136,7 +134,7 @@ section.page {
     background: var(--p-blue-soft);
     min-height: 100mm;
 }
-.cover-hero img { width: 80%; height: auto; }
+.cover-hero img { width: 80%; max-height: 90mm; height: auto; }
 
 .cover-bottom {
     display: flex;
@@ -147,9 +145,10 @@ section.page {
 }
 .program-line { font-weight: 700; font-size: 9.5pt; color: var(--p-navy); max-width: 140mm; }
 
-/* --- 6. GRID & LAYOUT --- */
-.grid { display: flex; gap: 10mm; margin-top: 8mm; }
+/* --- 6. GRID & UTILITIES --- */
+.grid { display: flex !important; gap: 10mm; margin-top: 8mm; }
 .span-8 { flex: 2; }
-.span-4 { flex: 1; background: var(--p-blue-soft); padding: 6mm; border-top: 3px solid var(--p-red); }
-.span-6 { flex: 1; border: 1px solid var(--line); padding: 6mm; }
+.span-4 { flex: 1; background: var(--p-blue-soft); padding: 8mm; border-top: 3px solid var(--p-red); }
+.span-6 { flex: 1; border: 1px solid var(--line); padding: 6mm; border-radius: 4px; }
 .right { text-align: right; }
+.muted { color: #64748b; font-size: 9pt; }
