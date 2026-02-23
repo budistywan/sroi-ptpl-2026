@@ -1,4 +1,4 @@
-/* SROI PTPL 2026 — Ultimate Executive Master CSS */
+/* SROI PTPL 2026 — Master CSS Premium (Full Integration) */
 
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;800&display=swap');
 
@@ -14,10 +14,10 @@
     --line: #E2E8F0;
 }
 
-/* --- 1. KOORDINAT FISIK (THE FLOATING SYSTEM) --- */
+/* --- 1. GLOBAL PAGE CONFIGURATION --- */
 @page {
     size: A4;
-    margin: 30mm 0mm 20mm 0mm;
+    margin: 30mm 0mm 20mm 0mm; /* Ruang untuk Floating Header/Footer */
 
     @top-left {
         content: string(title);
@@ -47,7 +47,17 @@
     }
 }
 
-/* --- 2. LAYOUT ENGINE --- */
+/* --- 2. COVER SPECIFIC RULE (THE CLEAN LOOK) --- */
+@page :first {
+    margin-top: 15mm; /* Logo naik lebih tinggi di halaman pertama */
+    @top-left { content: none; } 
+    @bottom-right { content: none; }
+}
+
+/* Logic to clear running title on cover */
+[data-running-title="Cover"] { string-set: title ""; }
+
+/* --- 3. LAYOUT ENGINE --- */
 .page {
     width: 210mm;
     margin: 0 auto;
@@ -64,13 +74,13 @@
 
 section.page { string-set: title attr(data-running-title); }
 
-/* --- 3. TYPOGRAPHY & COVER COMPONENTS --- */
+/* --- 4. TYPOGRAPHY & ELEMENTS --- */
 .h1 {
     font-family: 'Libre Baskerville', serif;
     font-size: 34pt;
     font-weight: 700;
     line-height: 1.1;
-    margin-top: 5mm;
+    margin-top: 10mm;
     color: var(--p-navy);
 }
 
@@ -92,13 +102,22 @@ section.page { string-set: title attr(data-running-title); }
     letter-spacing: 0.12em;
 }
 
-/* COVER WRAPPER */
+.prose p {
+    font-family: 'Inter', sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.8;
+    text-align: justify;
+    margin-bottom: 4mm;
+}
+
+/* --- 5. COVER COMPONENTS --- */
 .cover-wrap {
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 5mm 0 15mm 0;
+    padding: 0 0 15mm 0;
+    margin-top: -5mm; /* Optical adjustment agar logo pas di atas */
 }
 
 .cover-top { display: flex; justify-content: space-between; align-items: flex-start; }
@@ -107,14 +126,14 @@ section.page { string-set: title attr(data-running-title); }
     font-family: 'Libre Baskerville', serif;
     font-size: 32pt;
     font-weight: 700;
-    line-height: 1.1;
+    line-height: 1.2;
     color: var(--p-navy);
-    margin: 6mm 0 4mm 0;
+    margin: 4mm 0;
 }
 
-.cover-subtitle { font-size: 14pt; color: var(--p-navy); line-height: 1.4; margin: 0; }
+.cover-subtitle { font-size: 14pt; color: var(--p-navy); line-height: 1.5; margin: 0; }
 
-.rule-red { width: 60mm; height: 2mm; background: var(--p-red); margin-top: 8mm; }
+.rule-red { width: 60mm; height: 2mm; background: var(--p-red); margin-top: 6mm; }
 
 .logo { width: 55mm; height: auto; }
 
@@ -123,13 +142,12 @@ section.page { string-set: title attr(data-running-title); }
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 15mm -20mm;
+    margin: 10mm -20mm;
     background: var(--p-blue-soft);
-    min-height: 85mm;
-    overflow: hidden;
+    min-height: 90mm;
 }
 
-.cover-hero img { width: 75%; height: auto; }
+.cover-hero img { width: 85%; height: auto; }
 
 .cover-bottom {
     display: flex;
@@ -139,14 +157,17 @@ section.page { string-set: title attr(data-running-title); }
     padding-top: 8mm;
 }
 
-.program-line { font-weight: 700; font-size: 10pt; color: var(--p-navy); max-width: 130mm; line-height: 1.5; }
+.program-line { font-weight: 700; font-size: 10pt; color: var(--p-navy); max-width: 140mm; line-height: 1.6; }
 
 .right { text-align: right; }
 
-.prose p {
-    font-family: 'Inter', sans-serif;
-    font-size: 10.5pt;
-    line-height: 1.8;
-    text-align: justify;
-    margin-bottom: 4mm;
+/* --- 6. GRID SYSTEM --- */
+.grid { display: flex !important; gap: 12mm; margin-top: 10mm; }
+.span-8 { flex: 1.8; }
+.span-4 { 
+    flex: 1; 
+    background: var(--p-blue-soft); 
+    padding: 8mm; 
+    border-top: 3px solid var(--p-red);
+    font-size: 9pt;
 }
