@@ -1,4 +1,4 @@
-/* SROI PTPL 2026 — Master CSS Final (Fix Cover Double) */
+/* SROI PTPL 2026 — Master CSS (Dynamic Running Title Version) */
 
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;800&display=swap');
 
@@ -12,7 +12,7 @@
 /* --- 1. ENGINE PAGINATION --- */
 .page {
     width: 210mm;
-    height: 296.8mm; /* Sedikit kurang dari 297mm untuk margin aman browser */
+    height: 296.8mm; 
     margin: 0 auto;
     padding: 0 20mm;
     background: var(--paper);
@@ -20,15 +20,17 @@
     position: relative;
     box-sizing: border-box;
     page-break-after: always;
-    overflow: hidden; /* Mencegah konten meluber ke halaman selanjutnya */
+    overflow: hidden; 
 }
 
+/* Logic untuk mengambil konten dari atribut data */
 section.page { string-set: title attr(data-running-title); }
 
-/* --- 2. MARGIN & NAVIGATION --- */
+/* --- 2. MARGIN & HEADER (DYNAMIC RUNNING TITLE) --- */
 @page {
     size: A4;
-    margin: 30mm 0mm 20mm 0mm;
+    margin: 35mm 0mm 20mm 0mm; /* Margin atas ditambah untuk space 2 baris title */
+
     @top-left {
         content: string(title);
         font-family: 'Inter', sans-serif;
@@ -37,74 +39,47 @@ section.page { string-set: title attr(data-running-title); }
         color: var(--p-red);
         text-transform: uppercase;
         padding-left: 20mm;
+        white-space: pre; /* Agar karakter \A atau baris baru terbaca */
+        line-height: 1.3;
     }
+
     @bottom-right {
-        content: string(title) "  |  " counter(page);
+        content: counter(page);
         font-family: 'Inter', sans-serif;
-        font-size: 8pt;
+        font-size: 9pt;
         font-weight: 700;
         color: white;
         background: var(--p-navy);
-        height: 12mm; width: 100%;
-        padding-right: 20mm;
-        display: flex; align-items: center; justify-content: flex-end;
+        height: 10mm;
+        width: 15mm;
+        display: flex; align-items: center; justify-content: center;
     }
 }
 
 @page :first { margin: 0; @top-left { content: none; } @bottom-right { content: none; } }
 
-/* --- 3. COVER LOGIC (FIXED) --- */
+/* --- 3. COVER LOGIC --- */
 [data-running-title="Cover"] { padding: 0 !important; }
-
-.cover-bg {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 1;
-    object-fit: cover;
-}
-
+.cover-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; object-fit: cover; }
 .cover-overlay {
-    position: relative;
-    z-index: 2;
-    height: 100%; /* Mengikuti .page */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 20mm;
-    box-sizing: border-box;
+    position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column;
+    justify-content: space-between; padding: 20mm; box-sizing: border-box;
     background: linear-gradient(to bottom, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0) 35%, rgba(10,25,41,0.8) 100%);
 }
 
-/* --- 4. TYPOGRAPHY & COMPONENTS --- */
-.kicker { 
-    font-family: 'Inter', sans-serif; 
-    font-size: 7pt; 
-    font-weight: 800; 
-    color: var(--p-red); 
-    text-transform: uppercase; 
-    letter-spacing: 0.15em; 
-    margin-bottom: 2mm;
-    display: flex; align-items: center; gap: 3mm;
+/* --- 4. TYPOGRAPHY (CLEAN VERSION) --- */
+.h1 { 
+    font-family: 'Libre Baskerville', serif; 
+    font-size: 28pt; 
+    font-weight: 700; 
+    color: var(--p-navy); 
+    margin-top: 5mm; /* Memberi jarak dari area Running Title */
+    line-height: 1.2; 
 }
-.kicker::after { content: ""; flex: 1; height: 0.5pt; background: var(--line); opacity: 0.4; }
 
-/* Kicker versi putih untuk area gelap di bawah cover */
-.kicker-light { color: #fb7185; }
-.kicker-light::after { background: rgba(255,255,255,0.2); }
-
-.h1 { font-family: 'Libre Baskerville', serif; font-size: 28pt; font-weight: 700; color: var(--p-navy); margin-top: 0; line-height: 1.2; }
 .rule-red { width: 45px; height: 1.5mm; background: var(--p-red); margin: 6mm 0; }
-.rule { width: 100%; height: 0.5pt; background: var(--line); margin: 6mm 0; }
-
-/* Dashboard Ringkasan Eksekutif */
-.stat-hero { background: #F8FAFC; padding: 10mm; border-left: 5mm solid var(--p-red); margin-bottom: 8mm; }
-.num { font-family: 'Inter', sans-serif; font-size: 42pt; font-weight: 800; color: var(--p-navy); }
-.stats-4 { display: flex; gap: 5mm; justify-content: space-between; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 5mm 0; }
-
-/* Grid Layout */
 .grid { display: flex !important; gap: 10mm; margin-top: 8mm; }
 .span-8 { flex: 2; }
 .span-4 { flex: 1; background: #F0F7FF; padding: 8mm; border-top: 3px solid var(--p-red); }
-.span-6, .span-6b { flex: 1; border: 1px solid var(--line); padding: 6mm; border-radius: 4px; }
 .prose p { font-family: 'Inter', sans-serif; font-size: 10.5pt; line-height: 1.8; text-align: justify; margin-bottom: 4mm; }
+.muted { color: #64748B; font-size: 9pt; }
