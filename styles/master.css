@@ -1,23 +1,38 @@
-/* SROI PTPL 2026 — Master CSS Premium (Full Integration) */
+/* SROI PTPL 2026 — Master CSS Final (Anti-Overlap & Precision Layout) */
 
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;800&display=swap');
 
 :root {
-    /* Palette Calibrated from Logo */
     --p-red: #E11D48;      
     --p-blue-soft: #F0F7FF; 
-    --p-green-soft: #F2F9F0;
     --p-navy: #0A1929;      
-    --canvas: #F1F5F9;
-    --paper: #FFFFFF;
-    --ink: #1E293B;
     --line: #E2E8F0;
 }
 
-/* --- 1. GLOBAL PAGE CONFIGURATION --- */
+/* --- 1. ENGINE PAGINATION (SOLUSI TUMPANG TINDIH) --- */
+.page {
+    width: 210mm;
+    min-height: 297mm; /* Tinggi A4 */
+    margin: 0 auto;
+    padding: 0 20mm;
+    background: white;
+    display: block;
+    position: relative;
+    
+    /* Memaksa setiap <section class="page"> menjadi halaman baru secara mutlak */
+    break-after: page !important;
+    page-break-after: always !important;
+}
+
+/* Mengatur alur teks otomatis antar halaman */
+section.page { 
+    string-set: title attr(data-running-title); 
+}
+
+/* --- 2. KONFIGURASI MARGIN & NAVIGASI FLOATING --- */
 @page {
     size: A4;
-    margin: 30mm 0mm 20mm 0mm; /* Ruang untuk Floating Header/Footer */
+    margin: 30mm 0mm 20mm 0mm;
 
     @top-left {
         content: string(title);
@@ -47,39 +62,21 @@
     }
 }
 
-/* --- 2. COVER SPECIFIC RULE (THE CLEAN LOOK) --- */
+/* Khusus Halaman Pertama (Cover): Sembunyikan Navigasi */
 @page :first {
-    margin-top: 15mm; /* Logo naik lebih tinggi di halaman pertama */
+    margin-top: 15mm;
     @top-left { content: none; } 
     @bottom-right { content: none; }
 }
 
-/* Logic to clear running title on cover */
 [data-running-title="Cover"] { string-set: title ""; }
 
-/* --- 3. LAYOUT ENGINE --- */
-.page {
-    width: 210mm;
-    margin: 0 auto;
-    padding: 0 20mm;
-    background: transparent;
-    display: block;
-}
-
-.pagedjs_page {
-    background: white !important;
-    margin: 15mm auto !important;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-}
-
-section.page { string-set: title attr(data-running-title); }
-
-/* --- 4. TYPOGRAPHY & ELEMENTS --- */
+/* --- 3. TYPOGRAPHY --- */
 .h1 {
     font-family: 'Libre Baskerville', serif;
-    font-size: 34pt;
+    font-size: 32pt;
     font-weight: 700;
-    line-height: 1.1;
+    line-height: 1.2;
     margin-top: 10mm;
     color: var(--p-navy);
 }
@@ -110,31 +107,16 @@ section.page { string-set: title attr(data-running-title); }
     margin-bottom: 4mm;
 }
 
-/* --- 5. COVER COMPONENTS --- */
+/* --- 4. KOMPONEN COVER --- */
 .cover-wrap {
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 0 0 15mm 0;
-    margin-top: -5mm; /* Optical adjustment agar logo pas di atas */
+    padding-bottom: 10mm;
 }
 
 .cover-top { display: flex; justify-content: space-between; align-items: flex-start; }
-
-.cover-title {
-    font-family: 'Libre Baskerville', serif;
-    font-size: 32pt;
-    font-weight: 700;
-    line-height: 1.2;
-    color: var(--p-navy);
-    margin: 4mm 0;
-}
-
-.cover-subtitle { font-size: 14pt; color: var(--p-navy); line-height: 1.5; margin: 0; }
-
-.rule-red { width: 60mm; height: 2mm; background: var(--p-red); margin-top: 6mm; }
-
 .logo { width: 55mm; height: auto; }
 
 .cover-hero {
@@ -144,10 +126,9 @@ section.page { string-set: title attr(data-running-title); }
     justify-content: center;
     margin: 10mm -20mm;
     background: var(--p-blue-soft);
-    min-height: 90mm;
+    min-height: 100mm;
 }
-
-.cover-hero img { width: 85%; height: auto; }
+.cover-hero img { width: 80%; height: auto; }
 
 .cover-bottom {
     display: flex;
@@ -157,17 +138,11 @@ section.page { string-set: title attr(data-running-title); }
     padding-top: 8mm;
 }
 
-.program-line { font-weight: 700; font-size: 10pt; color: var(--p-navy); max-width: 140mm; line-height: 1.6; }
-
+.program-line { font-weight: 700; font-size: 9.5pt; color: var(--p-navy); max-width: 140mm; }
 .right { text-align: right; }
 
-/* --- 6. GRID SYSTEM --- */
-.grid { display: flex !important; gap: 12mm; margin-top: 10mm; }
-.span-8 { flex: 1.8; }
-.span-4 { 
-    flex: 1; 
-    background: var(--p-blue-soft); 
-    padding: 8mm; 
-    border-top: 3px solid var(--p-red);
-    font-size: 9pt;
-}
+/* --- 5. GRID SYSTEM UNTUK HALAMAN ISI --- */
+.grid { display: flex; gap: 10mm; margin-top: 8mm; }
+.span-8 { flex: 2; }
+.span-4 { flex: 1; background: var(--p-blue-soft); padding: 6mm; border-top: 3px solid var(--p-red); }
+.span-6 { flex: 1; border: 1px solid var(--line); padding: 6mm; border-radius: 4px; }
