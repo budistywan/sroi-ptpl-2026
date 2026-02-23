@@ -1,4 +1,4 @@
-/* SROI PTPL 2026 — Master CSS Premium (Color & Dimension Calibrated) */
+/* SROI PTPL 2026 — Ultimate Executive Master CSS */
 
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;800&display=swap');
 
@@ -47,7 +47,7 @@
     }
 }
 
-/* --- 2. THE CONTENT SHEET --- */
+/* --- 2. LAYOUT ENGINE --- */
 .page {
     width: 210mm;
     margin: 0 auto;
@@ -89,9 +89,10 @@ section.page { string-set: title attr(data-running-title); }
     font-weight: 800;
     color: var(--p-red);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
 }
 
+/* COVER WRAPPER */
 .cover-wrap {
     height: 100%;
     display: flex;
@@ -141,3 +142,11 @@ section.page { string-set: title attr(data-running-title); }
 .program-line { font-weight: 700; font-size: 10pt; color: var(--p-navy); max-width: 130mm; line-height: 1.5; }
 
 .right { text-align: right; }
+
+.prose p {
+    font-family: 'Inter', sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.8;
+    text-align: justify;
+    margin-bottom: 4mm;
+}
