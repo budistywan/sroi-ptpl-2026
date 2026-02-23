@@ -1,14 +1,13 @@
-/* SROI PTPL 2026 — Master CSS Premium (Color Calibrated) */
+/* SROI PTPL 2026 — Master CSS Premium (Color & Dimension Calibrated) */
 
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;800&display=swap');
 
 :root {
     /* Palette Calibrated from Logo */
-    --p-red: #E11D48;      /* Primary Red */
-    --p-blue-soft: #F0F7FF; /* Pastel Blue */
-    --p-green-soft: #F2F9F0;/* Pastel Green */
-    --p-navy: #0A1929;      /* Deep Navy for Ink/Footer */
-    
+    --p-red: #E11D48;      
+    --p-blue-soft: #F0F7FF; 
+    --p-green-soft: #F2F9F0;
+    --p-navy: #0A1929;      
     --canvas: #F1F5F9;
     --paper: #FFFFFF;
     --ink: #1E293B;
@@ -28,7 +27,7 @@
         color: var(--p-red);
         text-transform: uppercase;
         letter-spacing: 0.15em;
-        padding-left: 20mm; /* Golden Value */
+        padding-left: 20mm;
         vertical-align: middle;
     }
 
@@ -39,7 +38,7 @@
         font-weight: 700;
         color: white;
         background: var(--p-navy);
-        height: 12mm; /* Golden Value */
+        height: 12mm;
         width: 100%;
         padding-right: 20mm;
         display: flex;
@@ -52,7 +51,7 @@
 .page {
     width: 210mm;
     margin: 0 auto;
-    padding: 0 20mm; /* Golden Value: Matches Header Offset */
+    padding: 0 20mm;
     background: transparent;
     display: block;
 }
@@ -65,7 +64,7 @@
 
 section.page { string-set: title attr(data-running-title); }
 
-/* --- 3. TYPOGRAPHY & ACCENTS --- */
+/* --- 3. TYPOGRAPHY & COVER COMPONENTS --- */
 .h1 {
     font-family: 'Libre Baskerville', serif;
     font-size: 34pt;
@@ -75,55 +74,70 @@ section.page { string-set: title attr(data-running-title); }
     color: var(--p-navy);
 }
 
-/* Red Bar Anchor (Astra Style) */
 .h1::before {
     content: "";
     display: block;
     width: 45px;
-    height: 1.8mm; /* Golden Thickness */
+    height: 1.8mm;
     background: var(--p-red);
     margin-bottom: 6mm;
 }
 
-.prose p {
+.kicker {
     font-family: 'Inter', sans-serif;
-    font-size: 10.5pt;
-    line-height: 1.8;
-    color: #334155;
-    margin-bottom: 5mm;
-    text-align: justify;
-}
-
-/* --- 4. GRID & CALIBRATED CARDS --- */
-.grid {
-    display: flex !important;
-    gap: 12mm;
-    margin-top: 10mm;
-}
-
-.span-8 { flex: 1.8; }
-
-.span-4 { 
-    flex: 1; 
-    background: var(--p-blue-soft); /* Pastel Blue Sidebar */
-    padding: 8mm; /* Golden Value */
-    border-top: 3px solid var(--p-red);
-    font-size: 9pt;
-    color: var(--p-navy);
-}
-
-/* Pastel Green Card for SROI Metrics */
-.card-success {
-    background: var(--p-green-soft);
-    padding: 6mm;
-    border-radius: 2px;
-    border: 1px solid #D1E7DD;
-    margin-top: 5mm;
-}
-
-.stat-value {
-    font-size: 24pt;
+    font-size: 8.5pt;
     font-weight: 800;
     color: var(--p-red);
-    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
 }
+
+.cover-wrap {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5mm 0 15mm 0;
+}
+
+.cover-top { display: flex; justify-content: space-between; align-items: flex-start; }
+
+.cover-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 32pt;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--p-navy);
+    margin: 6mm 0 4mm 0;
+}
+
+.cover-subtitle { font-size: 14pt; color: var(--p-navy); line-height: 1.4; margin: 0; }
+
+.rule-red { width: 60mm; height: 2mm; background: var(--p-red); margin-top: 8mm; }
+
+.logo { width: 55mm; height: auto; }
+
+.cover-hero {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 15mm -20mm;
+    background: var(--p-blue-soft);
+    min-height: 85mm;
+    overflow: hidden;
+}
+
+.cover-hero img { width: 75%; height: auto; }
+
+.cover-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-top: 1px solid var(--line);
+    padding-top: 8mm;
+}
+
+.program-line { font-weight: 700; font-size: 10pt; color: var(--p-navy); max-width: 130mm; line-height: 1.5; }
+
+.right { text-align: right; }
