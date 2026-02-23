@@ -1,39 +1,31 @@
-/* SROI PTPL 2026 — Master CSS (Fix: Page Visibility & Navigation) */
+/* SROI PTPL 2026 — Master CSS (Full Background Version) */
 
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;800&display=swap');
 
 :root {
     --p-red: #E11D48;      
-    --p-blue-soft: #F0F7FF; 
     --p-navy: #0A1929;      
-    --line: #E2E8F0;
     --paper: #FFFFFF;
 }
 
-/* --- 1. ENGINE PAGINATION (FORCED SEPARATION) --- */
+/* --- 1. ENGINE PAGINATION --- */
 .page {
     width: 210mm;
+    min-height: 296mm; 
     margin: 0 auto;
-    padding: 0 20mm;
     background: var(--paper);
     display: block;
     position: relative;
-    box-sizing: border-box;
-    /* Memaksa pemutusan halaman */
     break-after: page !important;
     page-break-after: always !important;
 }
 
-/* Menangkap Running Title */
-section.page { 
-    string-set: title attr(data-running-title); 
-}
+section.page { string-set: title attr(data-running-title); }
 
-/* --- 2. KONFIGURASI MARGIN GLOBAL --- */
+/* --- 2. MARGIN & NAVIGASI --- */
 @page {
     size: A4;
     margin: 30mm 0mm 20mm 0mm;
-
     @top-left {
         content: string(title);
         font-family: 'Inter', sans-serif;
@@ -41,11 +33,8 @@ section.page {
         font-weight: 800;
         color: var(--p-red);
         text-transform: uppercase;
-        letter-spacing: 0.15em;
         padding-left: 20mm;
-        vertical-align: middle;
     }
-
     @bottom-right {
         content: string(title) "  |  " counter(page);
         font-family: 'Inter', sans-serif;
@@ -56,72 +45,57 @@ section.page {
         height: 12mm;
         width: 100%;
         padding-right: 20mm;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
+        display: flex; align-items: center; justify-content: flex-end;
     }
 }
 
-/* --- 3. LOGIKA KHUSUS COVER (ANTI-BLANK) --- */
-@page :first {
-    margin: 15mm 0mm 15mm 0mm; /* Margin lebih kecil agar konten tidak terdorong keluar */
-    @top-left { content: none; } 
-    @bottom-right { content: none; }
+@page :first { margin: 0; } /* Khusus Cover: Tanpa Margin agar gambar mentok */
+
+/* --- 3. FULL BACKGROUND COVER LOGIC --- */
+[data-running-title="Cover"] { padding: 0 !important; }
+
+.cover-bg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 210mm; height: 297mm;
+    z-index: 1;
+    object-fit: cover;
 }
 
-[data-running-title="Cover"] { 
-    string-set: title ""; 
-}
-
-/* Memastikan wrapper cover tidak melebihi area cetak */
-.cover-wrap {
+.cover-overlay {
+    position: relative;
+    z-index: 2;
+    height: 297mm;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 260mm; /* Tinggi aman di bawah 297mm */
-    width: 100%;
-    margin: 0;
-    padding: 0;
+    padding: 20mm;
+    box-sizing: border-box;
+    /* Gradasi agar teks atas (hitam) dan bawah (putih) tetap kontras */
+    background: linear-gradient(to bottom, 
+        rgba(255,255,255,0.9) 0%, 
+        rgba(255,255,255,0.2) 25%, 
+        rgba(10,25,41,0) 60%, 
+        rgba(10,25,41,0.85) 100%);
 }
 
-/* --- 4. KOMPONEN COVER --- */
-.cover-top { display: flex; justify-content: space-between; align-items: flex-start; }
-.cover-title { font-family: 'Libre Baskerville', serif; font-size: 32pt; font-weight: 700; color: var(--p-navy); margin: 4mm 0; line-height: 1.1; }
-.cover-subtitle { font-size: 14pt; color: var(--p-navy); line-height: 1.5; margin: 0; }
-.rule-red { width: 60mm; height: 2mm; background: var(--p-red); margin-top: 6mm; }
-.logo { width: 55mm; height: auto; }
-
-.cover-hero {
-    flex: 1; /* Mengambil sisa ruang yang ada */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 10mm -20mm;
-    background: var(--p-blue-soft);
-    overflow: hidden;
-    min-height: 80mm;
-}
-.cover-hero img { width: 75%; max-height: 90%; height: auto; object-fit: contain; }
+/* --- 4. TYPOGRAPHY & COMPONENTS --- */
+.kicker { font-family: 'Inter', sans-serif; font-size: 8.5pt; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+.cover-title { font-family: 'Libre Baskerville', serif; font-size: 32pt; font-weight: 700; color: var(--p-navy); line-height: 1.1; margin: 5mm 0; }
+.cover-subtitle { font-family: 'Inter', sans-serif; font-size: 14pt; color: var(--p-navy); line-height: 1.4; margin: 0; }
+.logo-cover { width: 50mm; height: auto; }
 
 .cover-bottom {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    border-top: 1px solid var(--line);
-    padding-top: 8mm;
-    margin-bottom: 5mm;
+    color: white;
+    padding-bottom: 5mm;
 }
-.program-line { font-weight: 700; font-size: 9.5pt; color: var(--p-navy); max-width: 140mm; }
 
-/* --- 5. TYPOGRAPHY ISI --- */
-.h1 { font-family: 'Libre Baskerville', serif; font-size: 32pt; font-weight: 700; margin-top: 10mm; color: var(--p-navy); }
-.h1::before { content: ""; display: block; width: 45px; height: 1.8mm; background: var(--p-red); margin-bottom: 6mm; }
-.kicker { font-family: 'Inter', sans-serif; font-size: 8.5pt; font-weight: 800; color: var(--p-red); text-transform: uppercase; letter-spacing: 0.12em; }
-.prose p { font-family: 'Inter', sans-serif; font-size: 10.5pt; line-height: 1.8; text-align: justify; margin-bottom: 4mm; }
-
-/* --- 6. GRID & LAYOUT --- */
-.grid { display: flex !important; gap: 10mm; margin-top: 8mm; }
-.span-8 { flex: 2; }
-.span-4 { flex: 1; background: var(--p-blue-soft); padding: 8mm; border-top: 3px solid var(--p-red); }
-.span-6 { flex: 1; border: 1px solid var(--line); padding: 6mm; border-radius: 4px; }
+.program-list { font-size: 9pt; font-weight: 600; line-height: 1.6; opacity: 0.9; }
 .right { text-align: right; }
+
+/* Grid Dasar untuk Halaman Isi */
+.grid { display: flex !important; gap: 10mm; margin-top: 8mm; padding: 0 20mm; }
+.span-6 { flex: 1; border: 1px solid #E2E8F0; padding: 6mm; border-radius: 4px; }
